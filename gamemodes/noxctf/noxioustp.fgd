@@ -1,0 +1,256 @@
+///////////////////////////////////////////////////////////////////////////////////
+// NoxiousNet TeamPlay FGD                                                       //
+// If there are any bugs with this file, or any additions that need to be made   //
+// make a post at: http://www.noxiousnet.com/forums/index.php?topic=14910        //		
+///////////////////////////////////////////////////////////////////////////////////
+
+@include "base.fgd"
+@include "halflife2.fgd"
+@include "hl2mp.fgd"
+
+@BaseClass base(Targetname) = NoXToggle
+[
+	// Inputs
+	input seton(integer) : "0 for off, 1 for on."
+	input enable(void)   : "Same as seton 1."
+	input disable(void)  : "Same as seton 0."
+]
+
+@BaseClass = NoXStartOn
+[
+	// Keys
+	starton(choices) : "Start On" : 1 : "Start on." =
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+]
+
+@baseClass = nox_pickup
+[
+	// Keys
+	respawntime(integer) : "Respawn rate" : 20 : "Float value that determines how much time it takes for the weapon to respawn after being picked up. -1 for never. Default: 20."
+]
+
+///////////////////////////////////////////////////////////////////////////////////
+// Gamemode - Placeables //////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+@PointClass base(Angles) studio("models/roller.mdl") color( 255 0 0 )  = redflagpoint : "RTP: Red team home."
+[
+]
+
+@PointClass base(Angles) studio("models/editor/playerstart.mdl") color( 255 0 0 )  = info_player_red : "RTP: Red team spawn."
+[
+]
+
+@PointClass base(Angles) studio("models/roller.mdl") color( 0 0 255 )  = blueflagpoint : "RTP: Blue team home."
+[
+]
+
+@PointClass base(Angles) studio("models/editor/playerstart.mdl") color( 0 0 255 )  = info_player_blue : "RTP: Blue team spawn."
+[
+]
+
+@PointClass base(Angles) studio("models/roller.mdl") color( 0 255 0 )  = greenflagpoint : "RTP: Green team home."
+[
+]
+
+@PointClass base(Angles) studio("models/editor/playerstart.mdl") color( 0 255 0 )  = info_player_green : "RTP: Green team spawn."
+[
+]
+
+@PointClass base(Angles) studio("models/roller.mdl") color( 255 255 0 )  = yellowflagpoint : "RTP: Yellow team home."
+[
+]
+
+@PointClass base(Angles) studio("models/editor/playerstart.mdl") color( 255 255 0 )  = info_player_yellow : "RTP: Yellow team spawn."
+[
+]
+
+@PointClass = hillarea : "RTP: Putting this in your map will make the script use these points instead of putting them in randomly for King of the Hill. You can use as many as you want. Area is about 2.5 dropships long. Remember that this area has no minimum or maximum position on the Z (vertical) plane. It's a huge cylinder."
+[
+]
+
+@PointClass base(Angles) studio("models/roller.mdl") = balldrop : "RTP: The neutral ball spawns here. The ball does not have physics when it's at home so don't put it way in the air. The gamemode will attempt to automatically make a drop point if you don't make one (and does it pretty well)."
+[
+]
+
+@PointClass base(Angles) color( 0 128 255 ) studio("models/props_wasteland/rockcliff01c.mdl") = obelisk : "RTP: A mana Obelisk."
+[
+]
+
+@PointClass base(Angles) color( 255 128 0 )studio("models/props_wasteland/rockcliff01c.mdl") = healthobelisk : "RTP: A health Obelisk."
+[
+]
+
+@PointClass studio("models\props_c17\substation_stripebox01a.mdl") = prop_generator : "RTP: Can be placed on nobuild maps for pre-built core shields."
+[
+	team(choices) : "Team" : "red" : "Selects the team that the shield belongs to." =
+	[
+		"red"    : "Red Rhinos"
+		"blue"   : "Blue Bulls"
+		"yellow" : "Yellow Yaks"
+		"green"  : "Green Gazelles"
+	]
+]
+
+@PointClass base(NoXToggle) = point_classdisabler : "RTP: Disables a class from being played OR enables a class in inverse mode."
+[
+	// Keys
+	class(string)          : "Class" : "" : "The class that is disabled. Case-insensitive."
+	team(choices)          : "Team": "all" : "Determines what team to use it on." = 
+	[
+		"red"    : "Red Rhinos"
+		"blue"   : "Blue Bulls"
+		"yellow" : "Yellow Yaks"
+		"green"  : "Green Gazelles"
+		"all"    : "All Teams"
+	]
+	startdisabled(choices) : "Start Disabled" : 0 : "Sets the entity to start disabled." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	inversemode(choices)   : "Inverse Mode" : 0 : "When set on, all classes except the above are disabled. Use in conjunction with other inversed classdisabler's to enable more classes. Good for when you only want a few classes enabled and don't want to recompile when new classes are added." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+@PointClass base(NoXToggle) = logic_flagscored : "RTP: CTF only - called when a team scores."
+[
+	// Keys
+	team(choices)          : "Team": "all" : "Determines what team to use it on when they score." = 
+	[
+		"red"    : "Red Rhinos"
+		"blue"   : "Blue Bulls"
+		"yellow" : "Yellow Yaks"
+		"green"  : "Green Gazelles"
+		"all"    : "All Teams"
+	]
+	startdisabled(choices) : "Start Disabled" : 0 : "Sets the entity to start disabled." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	// Outputs
+	output OnScored(void) : "Called when the team scores a flag capture."
+]
+
+@PointClass = point_spelldisabler : "RTP: Disables spells or abilities from being used."
+[
+	// Keys
+	spell(string) : "Spell Name(s)" : "" : "Name of the spell to disable ('push', 'death ray', 'fire bolt', 'war cry', ect)"
+]
+
+
+@SolidClass base(NoXToggle, NoXStartOn) = func_disposer : "RTP: Any player who enters here will die. They will be sent back to their spawn if it is in build mode."
+[
+	// Outputs
+	output OnPlayerDisposed(void)      : "Called when a player is disposed of."
+	output OnPlayerDisposedBuild(void) : "Called when a player is disposed of during build (sent back to spawn)."
+]
+
+@SolidClass = func_nofreeze : "RTP: Absolutely no props will be able to be placed in this area."
+[
+	// Keys
+	buildonly(choices) : "Build Only" : 0 : "When this is set to Yes the brush will be removed when build mode is over, allowing crafters to build in the area during the battle." =
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+]
+
+@SolidClass base(NoXToggle, NoXStartOn) = trigger_hurt_nox : "RTP: A trigger_hurt that allows you to specify damage types that are only available to NoX."
+[
+	// Keys
+	starton(choices)             : "Start On" : 1 : "Start on." =
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+	
+	damagetype(choices)          : "Damage Type" : "generic" : "Damage type. Infectious means that the player will be poisoned in addition to receiving damage. 0 damage will just poison them. Deathray is considered generic damage and just uses the deathray effect if the player dies." =
+	[
+		"generic"          : "Generic"
+		"physical"         : "Physical"
+		"fire"             : "Fire"
+		"ice"              : "Ice"
+		"poison"           : "Poison"
+		"infectiouspoison" : "Infectious Poison"
+		"deathray"         : "Death Ray"
+		"electric"         : "Electric"
+	]
+	damage(integer)              : "Damage" : 5 : "Integer by which the person is damaged."
+	damagerecycle(float)         : "Damage Recycle" : "0.5" : "Float value that determines how often a person can be damaged. This is per-player, not per-trigger."
+	damagefilter(integer)        : "Damage Filter" : 6 : "Bitwise for who can be affected by this trigger. 2: Player, 4: NPC, 8: Vehicle, 16: Buildings & Core."
+	
+	// Outputs
+	output OnPlayerHurt(void)    : "When a player is hurt by the trigger."
+	output OnPlayerKilled(void)  : "When a player is killed by the trigger."
+	output OnNPCHurt(void)       : "When an NPC gets hurt by the trigger."
+	output OnNPCKilled(void)     : "When an NPC gets killed by the trigger."
+	output OnVehicleHurt(void)   : "When a Vehicle gets hurt by the trigger."
+	output OnVehicleKilled(void) : "When a vehicle is killed by the trigger."	
+]
+
+@SolidClass base(NoXToggle, NoXStartOn) = trigger_changegravity : "RTP: A brush changes the gravity of whatever enters it."
+[
+	// Keys
+	gravity(float)         : "Gravity" : 1 : "Decimal value to use for gravity. This is offset from the global gravity (800), not whatever gravity the thing has at the time."
+	gravityfilter(integer) : "Gravity Filter" : 7 : "Bitwise for who can be affected by this trigger. 1: Player, 2: NPC, 4: Vehicle."
+]
+
+@PointClass = info_novehicles : "RTP: If this entity is in the map then vehicles will be completely disabled."
+[
+]
+
+@PointClass = info_isnight : "RTP: Add this if your map is a night-time map."
+[
+]
+
+@PointClass = info_noairvehicles : "RTP: If this entity is in the map then air vehicles will be completely disabled."
+[
+]
+
+@PointClass = info_nogroundvehicles : "RTP: If this entity is in the map then ground vehicles will be completely disabled."
+[
+]
+
+@PointClass = info_nohovervehicles : "RTP: If this entity is in the map then hover vehicles will be completely disabled."
+[
+]
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// Gamemode - pickups /////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+@PointClass base(nox_pickup) studio("models/weapons/W_crossbow.mdl")    = pickup_crossbow : "Crossbow weapon pickup."
+[
+]
+
+@PointClass base(nox_pickup) studio("models/w_nox_longbow.mdl")         = pickup_longbow : "Longbow weapon pickup."
+[
+]
+
+@PointClass base(nox_pickup) studio("models/weapons/w_axe.mdl")         = pickup_axe : "War axe weapon pickup."
+[
+]
+
+@PointClass base(nox_pickup) studio("models/props_c17/signpole001.mdl") = pickup_lightningstaff : "Lightning staff weapon pickup."
+[
+]
+
+@PointClass base(nox_pickup) studio("models/props_c17/signpole001.mdl") = pickup_fireboltstaff : "Magic arrow staff weapon pickup."
+[
+]
+
+@PointClass base(nox_pickup) studio("models/w_nox_short_sword.mdl")     = pickup_shortsword : "Shortsword weapon pickup."
+[
+]
+
+@PointClass base(nox_pickup) studio("models/peanut/conansword.mdl")     = pickup_longsword : "Longsword weapon pickup."
+[
+]
