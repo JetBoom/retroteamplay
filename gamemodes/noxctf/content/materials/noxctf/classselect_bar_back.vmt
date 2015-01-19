@@ -1,0 +1,10 @@
+"UnlitGeneric" 
+{ 
+	"$basetexture" "noxctf/classselect_bar_back"
+	"$vertexcolor" 1 
+	"$vertexalpha" 1 
+	"$nolod" 1
+	"$nomip" 1
+	"$ignorez" 1
+}
+

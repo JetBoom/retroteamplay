@@ -1,0 +1,9 @@
+"vertexlitgeneric" {
+    "$basetexture" "mixerman3d\weapons\axe_handle01"
+    "$bumpmap" "mixerman3d\weapons\axe_handle01_normal"
+    "$normalmapalphaenvmapmask" 1
+    "$envmapsaturation" 0.50000
+    "$envmap" "env_cubemap"
+    "$envmaptint" "[ 0.3843 0.3843 0.3843 ]"
+    "$surfaceprop" "metal"
+}

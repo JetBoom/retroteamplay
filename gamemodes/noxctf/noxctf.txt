@@ -1,0 +1,12 @@
+"noxctf"
+{
+	"base"				"base"
+	"title"				"Retro TeamPlay"
+	"maps"				"^gm_build_noxctf_|^nox_|^noxctf_|^noxtp_|^noxnb_"
+	"menusystem"		"1"
+	"workshopid"		"192091596"
+
+	"author_name"		"William 'JetBoom' Moodhe"
+	"author_email"		"williammoodhe@gmail.com"
+	"author_url"		"http://www.noxiousnet.com/"
+}

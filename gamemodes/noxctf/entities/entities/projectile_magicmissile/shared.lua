@@ -1,0 +1,7 @@
+ENT.Type = "anim"
+ENT.m_IsProjectile = true
+
+ENT.CounterSpell = COUNTERSPELL_EXPLODE
+ENT.Inversion = INVERSION_SETOWNER_REVERSE_TARGET_VELOCITY
+
+ENT.Speed = 450

@@ -1,0 +1,7 @@
+// Extracted with MulleDK19's GMAD Extractor
+"AddonInfo"
+{
+	"name" "Retro TeamPlayer (RTP) Gamemode + Content"
+	"author_name" "Author Name"
+	"info" " { 	"description": "Description", 	"type": "gamemode", 	"tags":  	[ 		"comic", 		"fun" 	] }"
+}

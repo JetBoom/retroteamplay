@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$color"				"[1 1 1]"
+	"$baseTexture"			"models/wp_sword_short/wp_sword_short"
+	"$selfIllum"			0
+	"$translucent"			0
+	"$alpha"				1
+}

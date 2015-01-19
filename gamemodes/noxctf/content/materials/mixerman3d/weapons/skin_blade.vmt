@@ -1,0 +1,10 @@
+"vertexlitgeneric" {
+    "$basetexture" "mixerman3d\weapons\skin_blade"
+    "$bumpmap" "mixerman3d\weapons\skin_blade_normal"
+    "$normalmapalphaenvmapmask" 1
+    "$envmapcontrast" 0.30000
+    "$envmap" "env_cubemap"
+    "$envmaptint" "[ 0.5020 0.5020 0.5020 ]"
+    "$surfaceprop" "metal"
+    "$model" 1
+}

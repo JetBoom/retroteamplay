@@ -1,0 +1,10 @@
+"UnlitGeneric" 
+{ 
+	"$basetexture" "noxctf/classicons/paladin"
+	"$vertexcolor" 1 
+	"$vertexalpha" 1 
+	"$nolod" 1
+	"$nomip" 1
+	"$ignorez" 1
+}
+

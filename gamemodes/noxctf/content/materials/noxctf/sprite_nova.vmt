@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "noxctf/sprite_nova"
+	"$additive" "1"
+	"$vertexcolor" 1
+	"$vertexalpha" "1"
+}
