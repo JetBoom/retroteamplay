@@ -1,6 +1,9 @@
 include("shared.lua")
 
 function ENT:Initialize()
+	self.Emitter = ParticleEmitter(self:GetPos())
+	self.Emitter:SetNearClip(24, 32)
+
 	self:DrawShadow(false)
 
 	self.AmbientSound = CreateSound(self, "ambient/water/water_flow_loop1.wav")
@@ -9,13 +12,13 @@ end
 
 function ENT:OnRemove()
 	self.AmbientSound:Stop()
+	--self.Emitter:Finish()
 end
 
 function ENT:Think()
 	local pos = self:GetPos()
-
-	local emitter = ParticleEmitter(pos)
-	emitter:SetNearClip(16, 24)
+	local emitter = self.Emitter
+	
 		
 	if CurTime() <= self:GetEruptTime() then			
 		for i = 1, (5 + math.ceil(self.Radius / 10)) do	
@@ -53,8 +56,6 @@ function ENT:Think()
 			particle:SetBounce(0.1)
 		end
 	end
-
-	emitter:Finish()
 
 	if not self.AmbientSound then
 		self.AmbientSound = CreateSound(self, "ambient/water/water_flow_loop1.wav")

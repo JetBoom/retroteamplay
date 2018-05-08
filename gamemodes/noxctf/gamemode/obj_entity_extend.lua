@@ -29,14 +29,14 @@ end
 
 function meta:SetAlpha(a)
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
-	
+
 	local c = self:GetColor()
 	self:SetColor(Color(c.r, c.g, c.b, a))
 end
 
 function meta:SetAlphaModulation(a)
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
-	
+
 	local c = self:GetColor()
 	self:SetColor(Color(c.r, c.g, c.b, a * 255))
 end
@@ -108,8 +108,10 @@ function meta:TakeSpecialDamage(damage, damagetype, attacker, inflictor, hitpos)
 	dmginfo:SetInflictor(inflictor)
 	dmginfo:SetDamagePosition(hitpos or self:NearestPoint(inflictor:NearestPoint(self:LocalToWorld(self:OBBCenter()))))
 	dmginfo:SetDamageType(damagetype)
+	local vel = self:GetVelocity()
 	self:TakeDamageInfo(dmginfo)
-	
+	self:SetLocalVelocity(vel)
+
 	return dmginfo
 end
 
@@ -202,7 +204,7 @@ function meta:PlaySound(ent, name)
 				if tab.vol and tab.pitchLB and tab.pitchRB then
 					local vol = tab.vol
 					local pitch = math.Rand(tab.pitchLB, tab.pitchRB)
-				
+
 					if delay and delay > 0 then
 						timer.Simple(delay, function()
 							if ent:IsValid() then ent:EmitSound(sound, vol, pitch) end
@@ -230,7 +232,7 @@ function meta:PlayAnimation(owner, name)
 	name = name.."Animation"
 	if self[name] then
 		if CLIENT then return end
-		
+
 		local tab = self[name]
 		local animation
 		if istable(tab) then
@@ -238,10 +240,10 @@ function meta:PlayAnimation(owner, name)
 		else
 			animation = tab
 		end
-		
+
 		owner:StopAllLuaAnimations()
 		owner:ResetLuaAnimation(animation)
-	elseif name == "MeleeSwingAnimation" then 
+	elseif name == "MeleeSwingAnimation" then
 		owner:DoAttackEvent()
 	end
 end

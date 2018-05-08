@@ -6,7 +6,7 @@ SWEP.WeaponStatus = "weapon_shortsword"
 SWEP.MeleeDamage = 17
 SWEP.MeleeDamageType = DMGTYPE_SLASHING
 SWEP.MeleeRange = 40
-SWEP.MeleeSize = 10
+SWEP.MeleeSize = 12
 SWEP.MeleeSwingTime = 0.16
 SWEP.MeleeCooldown = 0.68
 

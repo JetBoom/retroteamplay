@@ -5,9 +5,7 @@ function ENT:Draw()
 	local col = team.GetColor(self:GetTeamID())
 	local pos = self:GetPos()
 
-	local emitter = ParticleEmitter(pos)
-	emitter:SetNearClip(16, 24)
-
+	local emitter = self.Emitter
 	for i=1, 3 + EFFECT_QUALITY * 1.5 do
 		local particle = emitter:Add("sprites/light_glow02_add", pos + VectorRand():GetNormalized() * math.Rand(2, 4))
 		particle:SetDieTime(math.Rand(0.6, 1))
@@ -29,8 +27,6 @@ function ENT:Draw()
 		particle:SetRollDelta(math.Rand(-2.8, 2.8))
 		particle:SetColor(45, 45, 45)
 	end
-
-	emitter:Finish()
 	
 	render.SetMaterial(matBeam)
 	local pos = self:GetPos()
@@ -41,6 +37,16 @@ end
 function ENT:Initialize()
 	self:DrawShadow(false)
 
+	self.Emitter = ParticleEmitter(self:GetPos())
+	self.Emitter:SetNearClip(24, 32)
 	self:EmitSound("weapons/flaregun/fire.wav")
 	self:SetRenderBounds(Vector(-36, -36, -36), Vector(36, 36, 36))
+end
+
+function ENT:Think()
+	self.Emitter:SetPos(self:GetPos())
+end
+
+function ENT:OnRemove()
+	--self.Emitter:Finish()
 end

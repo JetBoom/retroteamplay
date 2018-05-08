@@ -4,11 +4,11 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 ENT.StartSound = {
 	sound = {
-		Sound("nox/brute1.ogg"), 
-		Sound("nox/brute2.ogg") 
+		Sound("nox/brute1.ogg"),
+		Sound("nox/brute2.ogg")
 		},
-	vol = 80, 
-	pitchLB = 100, 
+	vol = 80,
+	pitchLB = 100,
 	pitchRB = 100
 }
 ENT.EndSound = {
@@ -18,11 +18,11 @@ ENT.EndSound = {
 		Sound("ambient/voices/cough3.wav"),
 		Sound("ambient/voices/cough4.wav")
 		},
-	vol = 80, 
-	pitchLB = 100, 
+	vol = 80,
+	pitchLB = 100,
 	pitchRB = 100
 }
-ENT.StatusImage = "spellicons/brute.png"
+ENT.StatusImage = "spellicons/brutewarrior.png"
 
 function ENT:ProcessDamage(attacker, inflictor, dmginfo)
 	dmginfo:SetDamage(dmginfo:GetDamage() * 2.0)

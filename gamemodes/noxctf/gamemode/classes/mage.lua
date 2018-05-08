@@ -12,7 +12,7 @@ CLASS.ManaRegeneration = 10
 CLASS.Image = "noxctf/classicons/mage"
 CLASS.RawIcon = "spellicons/protrusion.png"
 
-CLASS.DefaultSpellSheet = "Static Ball:Energy Bolt:Protrusion:Force Field:Blink:Counter Spell:Teleport to Target:Inversion:Ice Spear:Slow:Comet:Sparkler:Greater Heal:Shock:Invisibility:Anchor"
+CLASS.DefaultSpellSheet = "Static Ball:Energy Bolt:Protrusion:Force Field:Protect From Elements:Counter Spell:Teleport to Target:Inversion:Ice Spear:Slow:Comet:Sparkler:Greater Heal:Shock:Invisibility:Anchor"
 
 CLASS.EaseOfUse = 7
 CLASS.Defense = 6

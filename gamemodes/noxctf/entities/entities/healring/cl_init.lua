@@ -1,16 +1,11 @@
 include("shared.lua")
 
-ENT.NextEmit = 0
-
 function ENT:Draw()
 	if CurTime() < self.NextEmit then return end
 	self.NextEmit = CurTime() + math.max(0.075, 0.1 * EFFECT_IQUALITY)
 
 	local pos = self:GetPos()
-
-	local emitter = ParticleEmitter(pos)
-	emitter:SetNearClip(16, 24)
-
+	local emitter = self.Emitter
 	local particle = emitter:Add("sprites/glow04_noz", pos + Vector(0,0,90) + VectorRand():GetNormal() * math.Rand(2, 18))
 	particle:SetVelocity(VectorRand():GetNormal() * math.Rand(4, 16))
 	particle:SetGravity(Vector(0,0,-500))
@@ -38,11 +33,13 @@ function ENT:Draw()
 	particle:SetRollDelta(math.Rand(-8, 8))
 	particle:SetColor(180, 255, 180)
 	particle:SetAirResistance(256)
-
-	emitter:Finish()
 end
 
 function ENT:Initialize()
+	self.Emitter = ParticleEmitter(self:GetPos())
+	self.Emitter:SetNearClip(24, 32)
+	self.NextEmit = 0
+
 	self:GetOwner().HealRing = self
 	self.DeathTime = CurTime() + 2
 
@@ -50,6 +47,11 @@ function ENT:Initialize()
 	self:DrawShadow(false)
 end
 
+function ENT:Think()
+	self.Emitter:SetPos(self:GetPos())
+end
+
 function ENT:OnRemove()
 	self:GetOwner().HealRing = nil
+	--self.Emitter:Finish()
 end

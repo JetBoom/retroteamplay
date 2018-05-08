@@ -82,7 +82,7 @@ function ENT:Explode(hitpos, hitnormal)
 		ExplosiveDamage(elecowner, hitpos, 250, 60, 0, 1, 60, DUMMY_SHOCKNAUT, DMGTYPE_SHOCK)
 	end
 
-	util.Effect("meteorexplosion", effectdata)
+	util.Effect("volcanicfragmentexplosion", effectdata)
 
 	self:NextThink(CurTime())
 end

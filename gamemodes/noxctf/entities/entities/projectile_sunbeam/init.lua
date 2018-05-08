@@ -45,7 +45,7 @@ function ENT:Explode(hitpos, hitnormal)
 
 	local owner = self:GetOwner()
 	if not owner:IsValid() then owner = self end
-	
+
 	local effectdata = EffectData()
 		effectdata:SetOrigin(hitpos)
 		local damagemult
@@ -59,9 +59,9 @@ function ENT:Explode(hitpos, hitnormal)
 		effectdata:SetStart(self.StartPos)
 		effectdata:SetScale(self:GetTeamID())
 	util.Effect("explosionbeam", effectdata)
-	
-	timer.Simple(1, function() ExplosiveDamage(owner, hitpos, 115, 100, 0.9, damagemult, 16, DUMMY_SUNBEAM) end)
-	
+
+	timer.Simple(0.75, function() ExplosiveDamage(owner, hitpos, 115, 100, 0.9, damagemult, 16, DUMMY_SUNBEAM) end)
+
 	timer.Simple(.1, function()
 		if self:IsValid() then self:Remove() end
 	end)

@@ -39,6 +39,7 @@ include("nox_shared_spelldefines.lua")
 
 include("vehicles_shared.lua")
 
+include("gametypes/cl_assault.lua")
 include("gametypes/cl_blitz.lua")
 include("gametypes/cl_harvest.lua")
 include("gametypes/cl_ctf.lua")

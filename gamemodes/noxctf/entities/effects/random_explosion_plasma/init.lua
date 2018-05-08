@@ -58,7 +58,6 @@ function EFFECT:Think()
 				particle:SetRoll(math.Rand(20, 80))
 				particle:SetRollDelta(math.random(-1, 1))
 				particle:SetColor(20, math.random(20,60), math.random(100,255))
-				particle:VelocityDecay(true)
 			end
 			ang:RotateAroundAxis(ang:Forward(), 360 / NumPuffs)
 			local newang = ang:Up()
@@ -72,7 +71,6 @@ function EFFECT:Think()
 			particle2:SetRoll(math.Rand(20, 80))
 			particle2:SetRollDelta(math.random(100, 250))
 			particle2:SetColor(20, math.random(20,60), math.random(100,255))
-			particle2:VelocityDecay(true)
 		end
 		return true
 	else

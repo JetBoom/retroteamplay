@@ -96,6 +96,9 @@ killicon.Add("projectile_volleyarrowbolt", "spellicons/russianroulette.png", col
 killicon.Add("projectile_wrench", "spellicons/crafter.png", color_white)
 killicon.Add("status_leap", "spellicons/leap2.png", color_white)
 killicon.Add("netherbomb", "spellicons/evade.png", color_white)
+killicon.Add("weapon_zombie", "spellicons/summonzombie.png", color_white)
+killicon.Add("projectile_zombieflesh", "spellicons/summonzombie.png", color_white)
+killicon.Add("projectile_discharge", "spellicons/jolt.png", color_white)
 
 
 killicon.AddAlias("env_fire", "dummy_burn")

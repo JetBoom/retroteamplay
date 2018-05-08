@@ -11,7 +11,7 @@ SWEP.NextAttack = 0
 
 SWEP.Droppable = "pickup_longbow"
 
-function SWEP:ReleaseArrow( pl )
+function SWEP:ReleaseArrow(pl)
 
 	local arrowtype = "projectile_arrow"
 	if pl:GetStatus("archerenchant_fire") then
@@ -54,9 +54,9 @@ function SWEP:ReleaseArrow( pl )
 		ang:RotateAroundAxis(ang:Forward(), 90)
 		ent:SetAngles(ang)
 		ent:SetPos(pl:GetShootPos())
-		ent.Damage = math.ceil(attackstrength * 25)
-		ent.Force = attackstrength
-		ent.AttackStrength = attackstrength
+		ent.Damage = math.ceil(self.AttackStrength * 25) * (pl:GetStatus("ruin") and 0.9 or 1)
+		ent.Force = self.AttackStrength
+		ent.AttackStrength = self.AttackStrength
 		local teamid = pl:Team()
 		local col = team.GetColor(teamid)
 		ent:SetColor(Color(col.r, col.g, col.b, 255))
@@ -70,7 +70,7 @@ function SWEP:ReleaseArrow( pl )
 			if arrowtype == "projectile_lightningarrow" then
 				phys:SetVelocityInstantaneous(pl:GetAimVector() * 4000)
 			else
-				phys:SetVelocityInstantaneous(math.max(600, 1900 * ent.Force) * pl:GetAimVector() * (pl:GetStatus("ruin") and 2/3 or 1))
+				phys:SetVelocityInstantaneous(1900 * ent.Force * pl:GetAimVector())
 			end
 		end
 	end
@@ -94,31 +94,27 @@ end
 function SWEP:Think()
 	if self.Fidget then
 		if not self.Owner:KeyDown(IN_ATTACK) then
-			if CurTime() > self.FullPower then
-				self.Fidget = nil
-				self.Lower = CurTime() + 0.75
-				self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 
-				local pl = self.Owner
+			self.Fidget = nil
+			self.Lower = CurTime() + 0.75
+			self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 
-				pl:RemoveInvisibility()
+			local pl = self.Owner
 
-				pl:DoAttackEvent()
+			pl:RemoveInvisibility()
 
-				self.NextAttack = CurTime() + self.Primary.Delay
-				attackstrength = math.max(0.4, math.min(1, 1 - (self.FullPower - (CurTime() + 2)) * 0.6)) * (pl:GetStatus("ruin") and 2/3 or 1)
-				self.FullPower = nil
-				
-				self:ReleaseArrow( pl )
-				
-				pl:EmitSound("nox/bow_end.ogg")
-			else
-				self.FullPower = nil
-				self.Fidget = nil
-				self.Lower = CurTime() + 0.1
-				self.NextAttack = CurTime() + self.Primary.Delay
-			end
-				
+			pl:DoAttackEvent()
+
+			self.NextAttack = CurTime() + self.Primary.Delay
+
+			self.AttackStrength = math.max(0.3, math.min(1, 1 - (self.FullPower - CurTime())))
+
+			self.FullPower = nil
+
+			self:ReleaseArrow(pl)
+
+			pl:EmitSound("nox/bow_end.ogg")
+
 		end
 	elseif self.Drawing and self.Drawing <= CurTime() then
 		self.Fidget = true

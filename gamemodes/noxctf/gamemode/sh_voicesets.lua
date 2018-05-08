@@ -4,6 +4,7 @@ SET_MONK = 3
 SET_BARNEY = 4
 SET_COMBINE = 5
 SET_ALYX = 6
+SET_ZOMBIE = 7
 
 VOICEGROUP_PAIN_LIGHT = 1
 VOICEGROUP_PAIN_MED = 2
@@ -89,7 +90,7 @@ VoiceSets[SET_FEMALE] = {
 		Sound("vo/npc/female01/no01.wav"),
 		Sound("vo/npc/female01/ow01.wav"),
 		Sound("vo/npc/female01/ow02.wav"),
-		Sound("npc/female01/mygut02.wav"),
+		Sound("vo/npc/female01/mygut02.wav"),
 		Sound("vo/npc/female01/goodgod.wav"),
 		Sound("ambient/voices/citizen_beaten2.wav")
 	}
@@ -165,6 +166,28 @@ VoiceSets[SET_MONK] = {
 	}
 }
 
+VoiceSets[SET_ZOMBIE] = {
+	[VOICEGROUP_PAIN_LIGHT] = {
+		Sound("npc/zombie_poison/pz_idle2.wav"),
+		Sound("npc/zombie_poison/pz_idle3.wav"),
+		Sound("npc/zombie_poison/pz_idle4.wav")
+	},
+	[VOICEGROUP_PAIN_MED] = {
+		Sound("npc/zombie_poison/pz_pain1.wav"),
+		Sound("npc/zombie_poison/pz_pain2.wav"),
+		Sound("npc/zombie_poison/pz_pain3.wav")
+	},
+	[VOICEGROUP_PAIN_HEAVY] = {
+		Sound("npc/zombie_poison/pz_pain1.wav"),
+		Sound("npc/zombie_poison/pz_pain2.wav"),
+		Sound("npc/zombie_poison/pz_pain3.wav")
+	},
+	[VOICEGROUP_DEATH] = {
+		Sound("npc/zombie_poison/pz_die1.wav"),
+		Sound("npc/zombie_poison/pz_die2.wav")
+	}
+}
+
 local meta = FindMetaTable("Player")
 if not meta then return end
 
@@ -207,6 +230,7 @@ VoiceSetTranslate["models/player/monk.mdl"] = SET_MONK
 VoiceSetTranslate["models/player/mossman.mdl"] = SET_FEMALE
 VoiceSetTranslate["models/player/police.mdl"] = SET_COMBINE
 VoiceSetTranslate["models/police.mdl"] = VoiceSetTranslate["models/player/police.mdl"]
+VoiceSetTranslate["models/zombie/poison.mdl"] = SET_ZOMBIE
 
 function meta:RefreshVoiceSet(mdl)
 	if not mdl then mdl = string.lower(self:GetModel()) end

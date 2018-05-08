@@ -6,22 +6,23 @@ function EFFECT:Init(effectdata)
 	self.DeathTime = CurTime() + self.LifeTime
 	
 	sound.Play("nox/explosion0"..math.random(1,5)..".ogg", self.Pos, 80, math.random(85, 110))
+
+	self.Emitter = ParticleEmitter(self.Pos)
+	self.Emitter:SetNearClip(24, 32)
 	
 	ExplosiveEffect(self.Pos, 240, 240, DMGTYPE_FIRE)
 end
 
 function EFFECT:Think()
 	if CurTime() >= self.DeathTime then
+		--self.Emitter:Finish()
 		return false
 	end
-
-	local emitter = ParticleEmitter(self.Pos)
-	emitter:SetNearClip(24, 32)
 
 	for i=1, math.random(32, 48) do
 		local vel = VectorRand():GetNormal() * 1024
 		vel.z = vel.z * 0.25
-		local particle = emitter:Add("effects/fire_cloud"..math.random(1, 2), self.Pos)
+		local particle = self.Emitter:Add("effects/fire_cloud"..math.random(1, 2), self.Pos)
 		particle:SetVelocity(vel)
 		particle:SetDieTime(math.Rand(1.5, 2))
 		particle:SetStartAlpha(240)
@@ -35,8 +36,6 @@ function EFFECT:Think()
 		particle:SetBounce(0.2)
 		particle:SetAirResistance(math.Rand(64, 256))
 	end
-
-	emitter:Finish()
 
 	return true
 end

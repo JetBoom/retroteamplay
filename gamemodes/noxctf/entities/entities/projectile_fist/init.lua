@@ -27,12 +27,13 @@ function ENT:Think()
 	if self.DeathTime <= CurTime() then
 		self:Remove()
 	end
-	
+
 	if self:GetPos().z <= (self.Destination.z + 170) and not self.Bounce then
 		self.Bounce = true
 		local effectdata = EffectData()
 			effectdata:SetOrigin(self.Destination)
 		util.Effect("fistofvengeancehit", effectdata)
+		util.ScreenShake(self.Destination, 700, 4, 2, 1400)
 		self.DeathTime = CurTime() + 1.5
 		local phys = self:GetPhysicsObject()
 		if phys:IsValid() then
@@ -56,7 +57,7 @@ function ENT:Think()
 			self.Touched[ent] = true
 		end
 	end
-	
+
 	self:NextThink(CurTime())
 	return true
 end

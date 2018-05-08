@@ -17,7 +17,7 @@ function SWEP:Initialize()
 	else
 		self.Mana = self.MaxMana
 	end
-	
+
 end
 
 function SWEP:Deploy()
@@ -59,8 +59,8 @@ function SWEP:PrimaryAttack()
 	self.NextAttack = CurTime() + 1.5
 	pl:DoAttackEvent()
 	pl:RemoveAmmo(self.AmmoPerCharge, self.ChargeAmmo)
-	
+
 	mana_lstaff = self.Owner:GetAmmoCount(self.ChargeAmmo)
 
-	spells.Lightning(pl)
+	spells.Discharge(pl)
 end

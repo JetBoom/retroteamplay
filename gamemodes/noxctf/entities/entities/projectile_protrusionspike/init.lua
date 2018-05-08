@@ -9,6 +9,9 @@ function ENT:Initialize()
 	else
 		self:SetModel("models/props_wasteland/rockcliff01c.mdl")
 	end
+
+	self:SetMaterial("models/shadertest/shader2")
+	self:SetColor(Color(30, 150, 255, 255))
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
@@ -26,8 +29,6 @@ function ENT:Initialize()
 
 	self:Fire("kill", "", 1)
 
-	self:SetMaterial("models/shadertest/shader2")
-
 	for _, fire in pairs(ents.FindByClass("env_fire")) do
 		if timer.Exists("burn"..fire:EntIndex()) and fire:GetPos():Distance(self:GetPos()) < 48 then
 			fire:Remove()
@@ -44,5 +45,6 @@ function ENT:Touch(ent)
 	if ent ~= owner and ent:IsValid() and not self.Touched[ent] then
 		self.Touched[ent] = true
 		ent:TakeSpecialDamage(14, DMGTYPE_ICE, owner, self)
+		if self:Freezes() then ent:SoftFreeze(self.EndTime - CurTime()) end
 	end
 end

@@ -12,7 +12,7 @@ CLASS.ManaRegeneration = 8
 CLASS.Image = "noxctf/classicons/dark mage"
 CLASS.RawIcon = "spellicons/typhoon.png"
 
-CLASS.DefaultSpellSheet = "Flame Spiral:Flame Strike:Hex:Poison Rain:Burn:Blood Boil:Blink:Drain Mana:Typhoon:Electron Ball:Fire Sprites:Inversion:Napalm Bomb:Anchor:Counter Spell:Channel Life"
+CLASS.DefaultSpellSheet = "Flame Spiral:Flame Strike:Hex:Poison Rain:Burn:Blood Boil:Petrify:Drain Mana:Typhoon:Electron Ball:Fire Sprites:Inversion:Napalm Bomb:Anchor:Counter Spell:Channel Life"
 
 CLASS.EaseOfUse = 5
 CLASS.Defense = 7

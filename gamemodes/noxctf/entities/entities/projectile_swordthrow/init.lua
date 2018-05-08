@@ -41,15 +41,6 @@ function ENT:Think()
 	local owner = self:GetOwner()
 
 	if self.PhysicsData then
-		if owner:GetStatus("spellsaber_nullblade") and not self.Returning then
-			owner:SetMana(math.max(0, owner:GetMana() - 20), true)
-			local hitpos = self.PhysicsData.HitPos
-			local effectdata = EffectData()
-				effectdata:SetOrigin(hitpos)
-			util.Effect("nullexplode", effectdata)
-
-			CounterSpellEffect(owner, hitpos, 256)
-		end
 		self:ComeBack()
 	end
 
@@ -123,19 +114,19 @@ function ENT:Think()
 				self.Touched[ent] = true
 				ent:BloodSpray(ent:WorldSpaceCenter(), 12, VectorRand(), 150)
 				ent:EmitSound("ambient/machines/slicer"..math.random(1,4)..".wav", 76, math.random(108, 112))
-				if owner:GetStatus("spellsaber_flameblade") then
+				if owner:GetStatus("spellsaber_flameblade") and owner:GetMana() >= 15 then
 					owner:SetMana(math.max(0, owner:GetMana() - 15), true)
 					ent:GiveStatus("flameblade_burn", 2.4).Inflictor = owner
 				end
-				if owner:GetStatus("spellsaber_corruptblade") then
+				if owner:GetStatus("spellsaber_corruptblade") and owner:GetMana() >= 30 then
 					owner:SetMana(math.max(0, owner:GetMana() - 30), true)
 					ent:GiveStatus("corruption", 3).Inflictor = owner
 				end
-				if owner:GetStatus("spellsaber_stormblade") then
+				if owner:GetStatus("spellsaber_stormblade") and owner:GetMana() >= 20 then
 					owner:SetMana(math.max(0, owner:GetMana() - 20), true)
 					ent:GiveStatus("stormblade_arc", 0.6).Inflictor = owner
 				end
-				if owner:GetStatus("spellsaber_shockblade") then
+				if owner:GetStatus("spellsaber_shockblade") and owner:GetMana() >= 15 then
 					owner:SetMana(math.max(0, owner:GetMana() - 15), true)
 					local effectdata = EffectData()
 						effectdata:SetOrigin(ent:NearestPoint(self:GetPos()))
@@ -146,11 +137,11 @@ function ENT:Think()
 					local pushforce = (self:GetPos() - ent:GetPos()):GetNormal()
 					ent:SetVelocity(Vector(pushforce.x * -500, pushforce.y * -500, 200))
 				end
-				if owner:GetStatus("spellsaber_sanguineblade") then
+				if owner:GetStatus("spellsaber_sanguineblade") and owner:GetMana() >= 25 then
 					owner:SetMana(math.max(0, owner:GetMana() - 25), true)
 					ent:EmitSound("npc/ichthyosaur/snap.wav")
 				end
-				if owner:GetStatus("spellsaber_nullblade") then
+				if owner:GetStatus("spellsaber_nullblade") and owner:GetMana() >= 20 then
 					local manaleech = math.min(12, ent:GetMana())
 					if 0 < manaleech then
 						local effectdata = EffectData()
@@ -168,11 +159,11 @@ function ENT:Think()
 				ent:TakeSpecialDamage(15, DMGTYPE_SLASHING, owner, self)
 				self.Touched[ent] = true
 				ent:EmitSound("ambient/machines/slicer"..math.random(1,4)..".wav", 76, math.random(108, 112))
-				if owner:GetStatus("spellsaber_flameblade") then
+				if owner:GetStatus("spellsaber_flameblade") and owner:GetMana() >= 15 then
 					owner:SetMana(math.max(0, owner:GetMana() - 15), true)
 					ent:TakeSpecialDamage(12, DMGTYPE_FIRE, owner, self)
 				end
-				if owner:GetStatus("spellsaber_stormblade") then
+				if owner:GetStatus("spellsaber_stormblade") and owner:GetMana() >= 20 then
 					owner:SetMana(math.max(0, owner:GetMana() - 20), true)
 					ent:TakeSpecialDamage(10, DMGTYPE_LIGHTNING, owner, self)
 				end

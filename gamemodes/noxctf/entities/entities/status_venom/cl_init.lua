@@ -1,23 +1,14 @@
 include("shared.lua")
 
 function ENT:StatusInitialize()
-	self.Emitter = ParticleEmitter(self:GetPos())
-
-	if MySelf == self:GetOwner() and not MySelf:GetPlayerClassTable().PoisonImmune then
-		hook.Add("HUDPaintBackground", self, self.HUDPaintBackground)
-		hook.Add("RenderScreenspaceEffects", self, self.RenderScreenspaceEffects)
-	end
 end
 
 function ENT:StatusThink(owner)
-	self.Emitter:SetPos(self:GetPos())
 end
 
 function ENT:Draw()
 	local owner = self:GetOwner()
-	if not owner:IsValid() then return end
-
-	if owner:IsInvisible() then return end
+	if not owner:IsValid() or owner:IsInvisible() then return end
 
 	local pos
 	if owner ~= MySelf or (owner == MySelf and owner:ShouldDrawLocalPlayer()) then
@@ -30,7 +21,7 @@ function ENT:Draw()
 	if pos then
 		local a = owner:GetVisibility()
 
-		local emitter = self.Emitter
+		local emitter = ParticleEmitter(self:GetPos())
 		for i=1, 2 do
 			particle = emitter:Add("sprites/light_glow02_add", pos + VectorRand())
 			particle:SetDieTime(0.6)
@@ -45,17 +36,6 @@ function ENT:Draw()
 			particle:SetGravity(Vector(0, 0, -200))
 			particle:SetCollide(true)
 		end
+		emitter:Finish()
 	end
-end
-
-local cmtab = {["$pp_colour_brightness"] = -.1, ["$pp_colour_contrast"] = .8, ["$pp_colour_colour"] = 1, ["$pp_colour_addr"] = 44/255, ["$pp_colour_addg"] = 125/255, ["$pp_colour_addb"] = 31/255}
-function ENT:RenderScreenspaceEffects()
-	DrawColorModify(cmtab)
-end
-
-function ENT:HUDPaintBackground()
-	local ang = EyeAngles()
-	ang.r = ang.r + 3*math.sin((CurTime()) * 3.15)*2
-	local camdata = {angles = ang}
-	render.RenderView(camdata)
 end

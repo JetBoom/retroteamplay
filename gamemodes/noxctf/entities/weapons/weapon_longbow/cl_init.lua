@@ -34,18 +34,11 @@ end
 function SWEP:Think()
 	if self.Fidget then
 		if not self.Owner:KeyDown(IN_ATTACK) then
-			if CurTime() > self.FullPower then
-				self.Fidget = nil
-				self.Lower = CurTime() + 0.75
-				self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-				self.NextAttack = CurTime() + self.Primary.Delay
-				self.FullPower = nil
-			else
-				self.FullPower = nil
-				self.Fidget = nil
-				self.Lower = CurTime() + 0.1
-				self.NextAttack = CurTime() + self.Primary.Delay
-			end
+			self.Fidget = nil
+			self.Lower = CurTime() + 0.75
+			self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+			self.NextAttack = CurTime() + self.Primary.Delay
+			self.FullPower = nil
 		end
 	elseif self.Drawing and self.Drawing <= CurTime() then
 		self.Fidget = true
@@ -88,7 +81,7 @@ function SWEP:DrawHUD()
 	surface.DrawRect(x - wid * 0.5, y, wid, hei)
 	local attackstrength = 0
 	if self.FullPower then
-		attackstrength = math.max(0, math.min(1, 1 - (self.FullPower - CurTime()) / 1))
+		attackstrength = math.max(0, math.min(1, 1 - (self.FullPower - CurTime())))
 	end
 	surface.SetDrawColor(attackstrength * 255, 0, 255 - attackstrength * 255, 220)
 	surface.DrawRect(x - wid * 0.5, y, wid * attackstrength, hei)

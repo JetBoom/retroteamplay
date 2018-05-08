@@ -9,7 +9,7 @@ CLASS.Mana = 150
 CLASS.ManaRegeneration = 8
 
 CLASS.Image = "noxctf/classicons/wizard"
-CLASS.RawIcon = "spellicons/starburst.png"
+CLASS.RawIcon = "spellicons/starburst4.png"
 
 CLASS.DefaultSpellSheet = "Missiles of Magic:Fire Bomb:Haste:Protect From Elements:Energy Bolt:Counter Spell:Teleport to Target:Inversion:Slow:Fire Bolt:Anchor:Sun Beam:Shock:Lesser Heal:Force Field:Invisibility"
 

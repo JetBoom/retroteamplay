@@ -1,7 +1,10 @@
 local matBolt = Material("effects/laser1")
 function EFFECT:Init(data)
 	local ent = data:GetEntity()
-
+	if ent:IsValid() then
+		self.Emitter = ParticleEmitter(data:GetOrigin())
+		self.Emitter:SetNearClip(40, 50)
+	end
 	self.Owner = ent
 	self.Threshhold = 0
 
@@ -14,6 +17,10 @@ function EFFECT:Think()
 	local ent = self.Owner
 
 	if not (RealTime() < self.Death and ent:IsValid()) then
+		if self.Emitter then
+			--self.Emitter:Finish()
+		end
+
 		return false
 	end
 
@@ -30,6 +37,7 @@ function EFFECT:Think()
 				if i == 1 then
 					local entpos = phys:GetPos()
 					self.Entity:SetPos(entpos)
+					self.Emitter:SetPos(entpos)
 				end
 			end
 		end
@@ -37,6 +45,9 @@ function EFFECT:Think()
 		return true
 	else
 		if self.Threshhold > 0.25 then
+			if self.Emitter then
+				--self.Emitter:Finish()
+			end
 			return false
 		end
 
@@ -55,14 +66,12 @@ function EFFECT:Render()
 
 	if not ent then return end
 
-	local emitter = ParticleEmitter(self.Entity:GetPos())
-	emitter:SetNearClip(40, 50)
-
+	local emitter = self.Emitter
 	for i=1, ent:GetPhysicsObjectCount() do
 		local phys = ent:GetPhysicsObjectNum(i)
 		if phys and phys:IsValid() then
 			local pos = phys:GetPos()
-			if math.random(2) == 1 then
+			if math.random(1, 2) == 1 then
 				local particle = emitter:Add("effects/spark", pos + VectorRand() * 6)
 				particle:SetVelocity(VectorRand() * 32)
 				particle:SetDieTime(math.Rand(0.3, 0.6))
@@ -101,6 +110,4 @@ function EFFECT:Render()
 			end
 		end
 	end
-
-	emitter:Finish()
 end

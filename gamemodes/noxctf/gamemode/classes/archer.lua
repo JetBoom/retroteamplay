@@ -3,7 +3,7 @@ CLASS.Group = "Hybrid"
 CLASS.Description = "Archers have the ability to put magical enchantments@on their arrows to do elemental damage."
 CLASS.Model = Model("models/player/odessa.mdl")
 CLASS.Health = HEALTH_NORMAL
-CLASS.Speed = SPEED_FAST
+CLASS.Speed = SPEED_NORMAL
 CLASS.SWEP = "weapon_longbow"
 
 CLASS.Mana = 100

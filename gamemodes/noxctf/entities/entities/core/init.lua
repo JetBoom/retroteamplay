@@ -49,6 +49,8 @@ function ENT:Initialize()
 		self.Tesla = effect2
 	end
 
+	self:SetImmunity(120)
+
 	self.Think = nil
 end
 
@@ -93,7 +95,8 @@ end
 
 local Slaves = {}
 function ENT:ProcessDamage(attacker, inflictor, dmginfo)
-	if not (attacker == NULL and inflictor == NULL) and self.Destroyed or attacker:GetTeamID() == self:GetTeamID() then return end
+	local immunity = self:GetImmunity() - CurTime()
+	if not (attacker == NULL and inflictor == NULL) and self.Destroyed or attacker:GetTeamID() == self:GetTeamID() or immunity > 0 then return end
 
 	inflictor = inflictor or attacker or self
 	if inflictor:IsPlayer() then
@@ -113,7 +116,7 @@ function ENT:ProcessDamage(attacker, inflictor, dmginfo)
 	end
 
 	local pierces = inflictor.ScriptVehicle or inflictor.DamagesCore or attacker == self
-	
+
 	if not pierces then
 		damage = damage * 0.6666
 	end

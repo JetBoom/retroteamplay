@@ -50,7 +50,7 @@ function ENT:StartTouch(ent)
 	if ent:IsValid() then
 		local owner = self:GetOwner()
 		if ent:IsPlayer() and (ent ~= owner or self.OwnerTouches) and not self.Touched[ent] then
-			ent:TakeSpecialDamage(48, DMGTYPE_LIGHTNING, owner, self)
+			ent:TakeSpecialDamage(48, DMGTYPE_GENERIC, owner, self)
 
 			self.Touched[ent] = true
 		end

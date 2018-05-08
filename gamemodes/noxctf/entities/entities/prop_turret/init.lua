@@ -83,7 +83,7 @@ function ENT:Attack_Slow()
 
 		local attacked
 		local myteam = self:GetTeamID()
-		for _, ent in pairs(ents.FindInCone(mypos, self:GetForward(), 500, 20)) do
+		for _, ent in pairs(ents.FindInSphere(mypos + self:GetForward() * 250, 250)) do
 			if ent:IsPlayer() and ent:Alive() and ent:Team() ~= myteam and TrueVisible(ent:NearestPoint(mypos), mypos) and ent:IsVisibleTarget(self) then
 				if GAMEMODE:DrainPower(self, 20) then
 					local proj = ents.Create("projectile_slow")
@@ -132,7 +132,7 @@ function ENT:Attack_Plasma()
 
 		local attacked
 		local myteam = self:GetTeamID()
-		for _, ent in pairs(ents.FindInCone(mypos, self:GetForward(), 800, 20)) do
+		for _, ent in pairs(ents.FindInSphere(mypos + self:GetForward() * 400, 400)) do
 			if ent:IsPlayer() and ent:Alive() and ent:GetTeamID() ~= myteam and TrueVisible(ent:NearestPoint(mypos), mypos) and ent:IsVisibleTarget(self) then
 				if GAMEMODE:DrainPower(self, 20) then
 					local proj = ents.Create("projectile_plasmabolt")
@@ -182,7 +182,7 @@ ENT["Attack_Magic Missiles"] = function(self)
 
 		local attacked
 		local myteam = self:GetTeamID()
-		for _, ent in pairs(ents.FindInCone(mypos, self:GetForward(), 600, 20)) do
+		for _, ent in pairs(ents.FindInSphere(mypos + self:GetForward() * 300, 300)) do
 			if ent:IsPlayer() and ent:Alive() and ent:GetTeamID() ~= myteam and TrueVisible(ent:NearestPoint(mypos), mypos) and ent:IsVisibleTarget(self) then
 				if GAMEMODE:DrainPower(self, 20) then
 					self:EmitSound("nox/missilesofmagic.ogg")
@@ -231,7 +231,7 @@ ENT["Attack_Pulse Cannon"] = function(self)
 
 	local attacked
 	local myteam = self:GetTeamID()
-	for _, ent in pairs(ents.FindInCone(mypos, self:GetForward(), 1300, 20)) do
+	for _, ent in pairs(ents.FindInSphere(mypos + self:GetForward() * 650, 650)) do
 		if ent:IsPlayer() and ent:Alive() and ent:GetTeamID() ~= myteam and TrueVisible(ent:NearestPoint(mypos), mypos) and ent:IsVisibleTarget(self) then
 			if GAMEMODE:DrainPower(self, 1) then
 				self:Fire("attack", "", 0.2)

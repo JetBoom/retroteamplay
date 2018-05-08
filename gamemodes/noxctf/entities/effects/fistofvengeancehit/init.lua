@@ -25,7 +25,6 @@ function EFFECT:Init(data)
 		particle:SetBounce(0.1)
 		particle:SetColor(190,170,170)
 	end
-	util.ScreenShake(pos, 4, 4, 2, 1)
 end
 
 function EFFECT:Think()

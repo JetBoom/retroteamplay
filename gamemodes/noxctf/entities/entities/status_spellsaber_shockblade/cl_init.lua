@@ -5,12 +5,11 @@ function ENT:StatusInitialize()
 	self:SetRenderBounds(Vector(-40, -40, -18), Vector(40, 40, 80))
 	
 	self.AmbientSound = CreateSound(self, "weapons/physcannon/energy_sing_loop4.wav")
-	self.Emitter = ParticleEmitter(self:GetPos(), true)
 end
 
 function ENT:StatusThink(owner)
-	self.Emitter:SetPos(self:GetPos())
-	self.AmbientSound:PlayEx(0.5, 80)
+	local mult = LocalPlayer() == owner and owner:GetMana() < 15 and 0.33 or 1
+	self.AmbientSound:PlayEx(0.5*mult, 80)
 end
 
 function ENT:Draw()
@@ -21,13 +20,15 @@ function ENT:Draw()
 	local bone = owner:LookupBone("valvebiped.bip01_r_hand")
 	if bone then
 		local pos, ang = owner:GetBonePosition(bone)
+		local mult = LocalPlayer() == owner and owner:GetMana() < 15 and 0.66 or 1
 
-		local emitter = self.Emitter
+		local emitter = ParticleEmitter(self:GetPos(), true)
+		emitter:SetNearClip(24, 32)
 		local particlepos = pos + ang:Right() * 1 + ang:Forward() * 4 + ang:Up() * math.random(-5,-32)
 		local particle = emitter:Add("effects/select_ring", particlepos)
 		particle:SetDieTime(0.1)
-		particle:SetColor(255,255,255)
-		particle:SetStartAlpha(255)
+		particle:SetColor(255*mult,255*mult,255*mult)
+		particle:SetStartAlpha(255*mult)
 		particle:SetEndAlpha(0)
 		particle:SetStartSize(0)
 		particle:SetEndSize(5)
@@ -36,18 +37,14 @@ function ENT:Draw()
 		particle:SetVelocity(owner:GetVelocity())
 		particle = emitter:Add("effects/select_ring", particlepos)
 		particle:SetDieTime(0.2)
-		particle:SetColor(255,255,255)
-		particle:SetStartAlpha(255)
+		particle:SetColor(255*mult,255*mult,255*mult)
+		particle:SetStartAlpha(255*mult)
 		particle:SetEndAlpha(0)
 		particle:SetStartSize(0)
 		particle:SetEndSize(8)
 		particle:SetAngles(ang)
 		particle:SetVelocity(owner:GetVelocity())
+		
+		emitter:Finish()
 	end
 end
-
-
-
-
-
-

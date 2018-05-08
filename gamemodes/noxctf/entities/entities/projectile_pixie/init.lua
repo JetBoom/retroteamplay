@@ -4,11 +4,15 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-	self:DrawShadow(false)
 	self.CounterSpell = COUNTERSPELL_DESTROY
-	self:PhysicsInitSphere(3)
-	self:SetMoveType(MOVETYPE_VPHYSICS)
+
+	self:SetMaterial("models/props_combine/stasisfield_beam")
+	self:SetModel("models/dav0r/hoverball.mdl")
+	self:PhysicsInitSphere(4)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
+
+	self.DeathTime = CurTime() + 3.125
 
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
@@ -16,7 +20,8 @@ function ENT:Initialize()
 		phys:EnableGravity(false)
 		phys:Wake()
 	end
-	self.DeathTime = CurTime() + 30
+	
+	self.Touched = {}
 end
 
 function ENT:Think()
@@ -26,7 +31,20 @@ function ENT:Think()
 			effectdata:SetOrigin(self:GetPos())
 		util.Effect("PixieHit", effectdata)
 	end
-
+	
+	for _, ent in pairs(ents.FindInSphere(self:GetPos(), 62)) do
+		if ent:IsValid() then
+			local owner = self:GetOwner()
+			if ent:IsPlayer() and ent:Team() ~= owner:Team() and not self.Touched[ent] then
+				ent:TakeSpecialDamage(15, DMGTYPE_GENERIC, owner, self)
+				local effectdata = EffectData()
+					effectdata:SetOrigin(self:NearestPoint(self:GetPos(),ent:GetPos()))
+				util.Effect("PixieHit", effectdata)
+				self.Touched[ent] = true
+			end
+		end
+	end
+	
 	if self.DeathTime <= CurTime() then
 		self:Remove()
 	end
@@ -35,16 +53,5 @@ end
 function ENT:PhysicsCollide(data, physobj)
 	self.PhysicsData = data
 	self:NextThink(CurTime())
-end
-
-
-function ENT:StartTouch(ent)
-	local owner = self:GetOwner()
-	if not owner:IsValid() then owner = self end
-
-	if ent:IsPlayer() and ent:GetTeamID() ~= self:GetTeamID() then
-		ent:TakeSpecialDamage(3, DMGTYPE_GENERIC, owner, self)
-		self.DeathTime = 0
-	end
 end
 

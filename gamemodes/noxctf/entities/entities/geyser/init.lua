@@ -6,7 +6,7 @@ function ENT:Initialize()
 	self.DeathTime = CurTime() + self.DeathTime
 	self:SetEruptTime(CurTime() + self.EruptTime)
 	self.Touched = {}
-	
+
 	self:DrawShadow(false)
 end
 
@@ -37,13 +37,15 @@ function ENT:Think()
 					ent:SetVelocity(Vector(0, 0, 600))
 				end
 
-				if ent ~= owner then
+				if ent == owner then
+					ent:Fire("ignorefalldamage", "2.5", 0)
+				else
 					ent:TakeSpecialDamage(self.Damage, DMGTYPE_COLD, owner, self)
 				end
 			end
 		end
-	
-		self:NextThink(CurTime()) 
+
+		self:NextThink(CurTime())
 		return true
 	end
 end

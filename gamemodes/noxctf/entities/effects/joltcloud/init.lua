@@ -4,6 +4,8 @@ function EFFECT:Init(data)
 	sound.Play("ambient/atmosphere/thunder"..math.random(1,4)..".wav", pos, 90, 100)
 	sound.Play("ambient/atmosphere/thunder"..math.random(1,4)..".wav", pos, 90, 90)
 
+	self.Emitter = ParticleEmitter(pos)
+	self.Emitter:SetNearClip(24, 32)
 	self.vPos = pos
 	
 	ExplosiveEffect(pos, 150, 0.01, DMGTYPE_SHOCK)
@@ -15,6 +17,7 @@ end
 
 function EFFECT:Think()
 	if self.DieTime <= CurTime() then
+		--self.Emitter:Finish()
 		return false
 	end
 
@@ -27,10 +30,7 @@ function EFFECT:Think()
 	if self.NextEmit < CurTime() then
 		self.NextEmit = CurTime() + (EFFECT_IQUALITY + 1) * 0.035
 
-		local emitter = ParticleEmitter(self.vPos)
-		emitter:SetNearClip(24, 32)
-
-		local particle = emitter:Add("particle/smokestack", self.vPos + VectorRand():GetNormal() * math.Rand(50, 250))
+		local particle = self.Emitter:Add("particle/smokestack", self.vPos + VectorRand():GetNormal() * math.Rand(50, 250))
 		particle:SetDieTime(1.5)
 		particle:SetStartAlpha(255)
 		particle:SetEndAlpha(0)
@@ -38,13 +38,11 @@ function EFFECT:Think()
 		particle:SetEndSize(100)
 		particle:SetRoll(math.Rand(0, 360))
 		particle:SetRollDelta(math.Rand(-2.5, 2.5))
-		if math.random(2) == 1 then
+		if math.random(1,2) == 1 then
 			particle:SetColor(50, 40, 5)
 		else
 			particle:SetColor(5, 5, 5)
 		end
-
-		emitter:Finish()
 	end
 
 	return true

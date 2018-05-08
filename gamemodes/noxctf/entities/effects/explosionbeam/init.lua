@@ -2,7 +2,7 @@ local matBolt = Material("effects/laser1")
 local cBeam = Color(255, 200, 30)
 
 function EFFECT:Init(data)
-	self.DieTime = RealTime() + 1
+	self.DieTime = RealTime() + 0.75
 	self.EndPos = data:GetOrigin()
 	self.BeamPos = {}
 	self.Scale = data:GetScale()

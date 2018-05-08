@@ -18,7 +18,7 @@ function ENT:Initialize()
 	end
 
 	self:SetMaterial("models/props_wasteland/rockcliff04a")
-	
+
 	self.DeathTime = CurTime() + 20
 end
 
@@ -55,7 +55,7 @@ function ENT:Explode(hitpos, hitnormal)
 	if not owner:IsValid() then owner = self end
 
 	ExplosiveDamage(owner, hitpos, 176, 176, 1, 0.4, 4, self, DMGTYPE_ICE)
-	
+
 	local _filter = player.GetAll()
 	table.Add(_filter, ents.FindByClass("projectile_protrusionspike"))
 	table.Add(_filter, ents.FindByClass("projectile_comet"))
@@ -66,6 +66,7 @@ function ENT:Explode(hitpos, hitnormal)
 		ent:SetPos(tr.HitPos)
 		ent:SetOwner(self:GetOwner())
 		ent:SetTeamID(self:GetTeamID())
+		ent:SetFreezes(true)
 		ent:Spawn()
 	end
 	if tr.Hit and tr.MatType == 83 then
@@ -74,17 +75,17 @@ function ENT:Explode(hitpos, hitnormal)
 			ent2:SetPos(tr.HitPos+Vector(0,0,-48))
 			ent2:Spawn()
 			for _, pl in pairs(ents.FindInSphere(tr.HitPos,40)) do
-				if pl:IsPlayer() then 
+				if pl:IsPlayer() then
 					ent2:Remove()
 				end
 			end
 		end
 	end
-	
+
 	for i=0,5 do
 		local tr2 = util.TraceLine({start = self:GetPos()+64*Vector(math.cos(math.rad(i*60)),math.sin(math.rad(i*60)),0), endpos = self:GetPos()+64*Vector(math.cos(math.rad(i*60)),math.sin(math.rad(i*60)),0) + Vector(0, 0, 10000), filter=_filter, mask = MASK_SOLID})
 		local tr = util.TraceLine({start = tr2.HitPos, endpos = tr2.HitPos + Vector(0, 0, -10000), filter=_filter, mask = MASK_WATER+MASK_SOLID})
-	
+
 		if tr.Hit and tr.MatType == 83 then
 			local ent3 = ents.Create("iceburg")
 			table.Add(_filter,ent3)
@@ -92,7 +93,7 @@ function ENT:Explode(hitpos, hitnormal)
 				ent3:SetPos(tr.HitPos+Vector(0, 0, -48))
 				ent3:Spawn()
 				for _, pl in pairs(ents.FindInSphere(tr.HitPos,40)) do
-					if pl:IsPlayer() then 
+					if pl:IsPlayer() then
 						ent3:Remove()
 					end
 				end

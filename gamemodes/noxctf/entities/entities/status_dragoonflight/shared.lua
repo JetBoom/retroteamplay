@@ -7,6 +7,7 @@ ENT.StatusImage = "spellicons/dragoonflight.png"
 ENT.Fatigue = 10
 ENT.NextFlap = 0
 ENT.NextRecharge = 0
+ENT.Glide = 0
 
 function ENT:Move(pl, move)
 	if pl ~= self:GetOwner() then return end
@@ -15,6 +16,7 @@ function ENT:Move(pl, move)
 		if pl:KeyPressed(IN_JUMP) and CurTime() > self.NextFlap then
 			self.Flap = true
 			self.NextFlap = CurTime() + 0.25
+			self.Glide = CurTime() + 0.3
 			local vel = pl:GetVelocity()
 			move:SetVelocity(Vector(vel.x,vel.y,vel.z + 150 * math.max(0.1,self.Fatigue/10)))
 			self.Fatigue = self.Fatigue - 1
@@ -22,7 +24,7 @@ function ENT:Move(pl, move)
 				pl:EmitSound("ambient/fire/mtov_flame2.wav",80, 77)
 			end
 		end
-		if pl:KeyDown(IN_JUMP) then
+		if pl:KeyDown(IN_JUMP) or CurTime() <= self.Glide then
 			if SERVER then
 				pl:SetGravity(0.25)
 			end

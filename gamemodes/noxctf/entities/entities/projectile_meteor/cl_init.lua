@@ -7,7 +7,7 @@ ENT.SmokeTimer = 0
 function ENT:Initialize()
 	self:DrawShadow(false)
 
-	--self:SetColorOld(255, 125, 75, 255)
+	self.Col = team.GetColor(self:GetTeamID()) or color_white
 	self:SetMaterial("models/props_wasteland/rockcliff04a")
 	self:SetModelScale(2, 0)
 
@@ -38,7 +38,11 @@ function ENT:Draw()
 	render.SetMaterial(matFire)
 	render.DrawSprite(vOffset, 80, 80, color_white)
 
+	local col = self.Col
+	local r,g,b = col.r, col.g, col.b
+	render.SetColorModulation(r / 255, g / 255, b / 255)
 	self:DrawModel()
+	render.SetColorModulation(1, 1, 1)
 
 	if CurTime() < self.SmokeTimer then return end
 	self.SmokeTimer = CurTime() + 0.05

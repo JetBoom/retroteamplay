@@ -6,8 +6,8 @@ include("shared.lua")
 function ENT:Initialize()
 
 	self:DrawShadow(false)
-	self:Fire("Kill", "", 10)
-	
+	self:Fire("Kill", "", 20)
+
 end
 
 function ENT:Think()

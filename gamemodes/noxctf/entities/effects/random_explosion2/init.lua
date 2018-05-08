@@ -22,7 +22,7 @@ function EFFECT:Init(data)
 
 	local teamid = data:GetScale()
 	self.Magnitude = data:GetMagnitude()
-	
+
 	if teamid ~= MySelf:Team() and self.Magnitude > 0 then
 		local eyepos = MySelf:EyePos()
 		local aimvec = MySelf:GetAimVector()
@@ -105,7 +105,6 @@ function EFFECT:Init(data)
 		particle:SetRoll(math.Rand(0, 359))
 		particle:SetRollDelta(math.Rand(-1, 1))
 		particle:SetColor(170, 160, 160)
-		particle:VelocityDecay(false)
 	end
 
 	--big smoke cloud
@@ -120,7 +119,6 @@ function EFFECT:Init(data)
 		particle:SetRoll(math.Rand(0,359))
 		particle:SetRollDelta(math.Rand(-1, 1))
 		particle:SetColor(170, 170, 170)
-		particle:VelocityDecay(false)
 	end
 
 	for i=1, 6 do
@@ -133,7 +131,6 @@ function EFFECT:Init(data)
 		particle:SetRoll(math.Rand(0, 359))
 		particle:SetRollDelta(math.Rand(-1, 1))
 		particle:SetColor(170, 170, 170)
-		particle:VelocityDecay(false)
 	end
 
 	-- small smoke cloud
@@ -147,7 +144,6 @@ function EFFECT:Init(data)
 		particle:SetRoll(math.Rand(480, 540))
 		particle:SetRollDelta(math.Rand(-1, 1))
 		particle:SetColor(170, 170, 170)
-		particle:VelocityDecay(false)
 	end
 
 	emitter:Finish()
@@ -158,7 +154,7 @@ function EFFECT:Init(data)
 end
 
 function EFFECT:Think()
-	return CurTime() < self.DieTime
+	return RealTime() < self.DieTime
 end
 
 local matBeam = Material("effects/laser1")

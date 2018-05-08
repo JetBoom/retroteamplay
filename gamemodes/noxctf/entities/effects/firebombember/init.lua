@@ -14,24 +14,21 @@ function EFFECT:Init(data)
 		phys:Wake()
 		phys:ApplyForceCenter(dir * math.random(speed * 0.25, speed))
 	end
-	self.Living = CurTime() + 4
-
+	self.Living = RealTime() + 4
+	self.Emitter = ParticleEmitter(self.Entity:GetPos())
+	self.Emitter:SetNearClip(24, 32)
 	self.NextSmoke = 0
 end
 
 function EFFECT:Think()
+	self.Emitter:SetPos(self.Entity:GetPos())
 	local tr = util.TraceLine({start = self.Entity:GetPos(), endpos = self.Entity:GetPos() + self.Entity:GetVelocity():GetNormal() * 16, mask = MASK_NPCWORLDSTATIC})
 	if tr.Hit then
 		self.Living = -5
 	end
 
-	if self.Living < CurTime() then
-		local pos = self.Entity:GetPos()
-
-		local emitter = ParticleEmitter(pos)
-		emitter:SetNearClip(24, 32)
-
-		local particle = emitter:Add("effects/fire_cloud1", pos)
+	if self.Living < RealTime() then
+		local particle = self.Emitter:Add("effects/fire_cloud1", self.Entity:GetPos())
 		particle:SetDieTime(1.1)
 		particle:SetStartAlpha(255)
 		particle:SetEndAlpha(20)
@@ -39,9 +36,7 @@ function EFFECT:Think()
 		particle:SetEndSize(2)
 		particle:SetRoll(math.Rand(0, 360))
 		particle:SetRollDelta(math.Rand(-1, 1))
-
-		emitter:Finish()
-
+		--self.Emitter:Finish()
 		return false
 	end
 
@@ -55,13 +50,10 @@ function EFFECT:Render()
 	local pos = self.Entity:GetPos()
 	render.DrawSprite(pos, 90, 90, color_white)
 
-	if CurTime() < self.NextSmoke then return end
-	self.NextSmoke = CurTime() + math.max(0.03, EFFECT_IQUALITY * 0.05)
+	if RealTime() < self.NextSmoke then return end
+	self.NextSmoke = RealTime() + math.max(0.03, EFFECT_IQUALITY * 0.05)
 
-	local emitter = ParticleEmitter(pos)
-	emitter:SetNearClip(24, 32)
-
-	local particle = emitter:Add("particles/smokey", pos + VectorRand() * 8)
+	local particle = self.Emitter:Add("particles/smokey", pos + VectorRand() * 8)
 	particle:SetVelocity(VectorRand():GetNormal() * math.Rand(8, 48))
 	particle:SetDieTime(math.Rand(0.9, 1.1))
 	particle:SetStartAlpha(180)
@@ -71,6 +63,4 @@ function EFFECT:Render()
 	particle:SetRoll(math.Rand(0, 360))
 	particle:SetRollDelta(math.Rand(-3, 3))
 	particle:SetColor(20, 20, 20)
-
-	emitter:Finish()
 end

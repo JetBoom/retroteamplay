@@ -1,10 +1,11 @@
-GM.GameTypes = {"CTF", "HTF", "KOTH"} --, "HVST", "ASLT", "BLTZ" }
+GM.GameTypes = {"CTF", "HTF", "ASLT", "KOTH"} --, "HVST", "ASLT", "BLTZ" }
 GM.GameTypeDescriptions = {
 	--ASLT = "Destroy the enemy core while protecting your own!",
 	--BLTZ = "One ball exists on the map. Bring it to the enemy goal to score!",
 	--HVST = "Be the first team to fill your grand capacitor with mana!",
 	CTF = "Steal the enemy flag and bring it back to your base while defending your own!",
 	HTF = "Hold the neutral flag for as long as possible!",
+	ASLT = "Destroy the enemy core while protecting your own!",
 	KOTH = "Control the alternating hill area the longest!"
 }
 GM.GameTranslates = {
@@ -13,6 +14,7 @@ GM.GameTranslates = {
 	--HVST = "Harvest",
 	CTF = "Capture the Flag",
 	HTF = "Hold the Flag",
+	ASLT = "Assault",
 	KOTH = "King of the Hill"
 }
 
@@ -95,7 +97,7 @@ CTF_FLAG_RETURNTIME = 0
 
 CORE_HEALTH = 5000
 CORE_HEAL = 5
-CORE_OVERTIME_DAMAGE = 10
+CORE_OVERTIME_DAMAGE = 50
 CORE_HEAL_TIME = 5
 CORE_MAX_MANA = 500
 

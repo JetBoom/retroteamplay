@@ -1,6 +1,6 @@
 include("shared.lua")
 
-SWEP.PrintName = "Staff of Lightning"
+SWEP.PrintName = "Staff of Discharge"
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = true
 SWEP.ViewModelFOV = 70

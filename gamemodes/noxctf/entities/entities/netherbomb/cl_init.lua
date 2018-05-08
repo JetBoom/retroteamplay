@@ -1,10 +1,12 @@
 include("shared.lua")
 
-ENT.NextEmit = 0
-
 function ENT:Initialize()
 	self:SetRenderBounds(Vector(-300, -300, -300), Vector(300, 300, 300))
 	self:DrawShadow(false)
+
+	self.Emitter = ParticleEmitter(self:GetPos())
+	self.Emitter:SetNearClip(24, 32)
+	self.NextEmit = 0
 
 	self.AmbientSound = CreateSound(self, "npc/scanner/combat_scan_loop4.wav")
 	self:EmitSound("npc/roller/mine/rmine_shockvehicle"..math.random(1,2)..".wav", 76, 80)

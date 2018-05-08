@@ -2,6 +2,8 @@ include("shared.lua")
 
 function ENT:Initialize()
 	self:DrawShadow(false)
+	self.Emitter = ParticleEmitter(self:GetPos())
+	self.Emitter:SetNearClip(24, 32)
 
 	self.AmbientSound = CreateSound(self, "ambient/fire/fire_big_loop1.wav")
 
@@ -13,6 +15,8 @@ end
 function ENT:Think()
 	self.AmbientSound:PlayEx(0.77, 100 + math.sin(CurTime()))
 
+	self.Emitter:SetPos(self:GetPos())
+
 	if not self.PlayedSound then
 		self.PlayedSound = true
 		self:EmitSound("ambient/fire/gascan_ignite1.wav")
@@ -21,6 +25,7 @@ end
 
 function ENT:OnRemove()
 	self.AmbientSound:Stop()
+	--self.Emitter:Finish()
 end
 
 local matGlow = Material("sprites/light_glow02_add")
@@ -36,9 +41,7 @@ function ENT:Draw()
 	
 	local c = self.Col
 
-	local emitter = ParticleEmitter(pos1)
-	emitter:SetNearClip(16, 24)
-
+	local emitter = self.Emitter
 	for i=1, 2 do
 		local particle = emitter:Add("sprites/light_glow02_add", pos1 + VectorRand():GetNormal() * math.Rand(2, 6))
 		particle:SetDieTime(math.Rand(0.4, 0.6))
@@ -92,6 +95,4 @@ function ENT:Draw()
 	particle:SetRoll(math.Rand(0, 360))
 	particle:SetRollDelta(math.Rand(-8, 8))
 	particle:SetColor(c.r, c.g, c.b)
-
-	emitter:Finish()
 end

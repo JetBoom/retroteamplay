@@ -1,7 +1,7 @@
 ENT.Type = "anim"
 ENT.Base = "status__base"
 
-ENT.SpeedBoost = 45
+ENT.SpeedBoost = 40
 
 ENT.StartSound = Sound("nox/hasteon.ogg")
 ENT.EndSound = Sound("nox/hasteoff.ogg")

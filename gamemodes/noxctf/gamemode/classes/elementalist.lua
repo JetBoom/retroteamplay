@@ -10,7 +10,7 @@ CLASS.ManaRegeneration = 8
 CLASS.Image = "noxctf/classicons/elementalist"
 CLASS.RawIcon = "spellicons/volcanicblast.png"
 
-CLASS.DefaultSpellSheet = "Volcanic Blast:Geyser:Eruption:Protect From Elements:Blink:Hydro Pump:Earthquake:Inversion:Whirlwind:Burn:Gust:Comet:Cauterize:Napalm Bomb:Aegis:Counter Spell"
+CLASS.DefaultSpellSheet = "Volcanic Blast:Geyser:Armageddon:Protect From Elements:Scorch:Hydro Pump:Earthquake:Inversion:Whirlwind:Burn:Gust:Protometeor:Cauterize:Napalm Bomb:Aegis:Counter Spell"
 
 CLASS.EaseOfUse = 5
 CLASS.Defense = 10

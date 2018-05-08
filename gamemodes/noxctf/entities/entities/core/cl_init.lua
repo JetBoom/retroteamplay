@@ -5,6 +5,7 @@ local matGlow = Material("sprites/light_glow02_add")
 function ENT:Initialize()
 	self.Rotation = 0
 	self:SetRenderBounds(Vector(-128, -128, -72), Vector(128, 128, 90))
+	//self.Emitter = ParticleEmitter(self:GetPos())
 end
 
 ENT.MaxTraceHUDPaintLength = 1024

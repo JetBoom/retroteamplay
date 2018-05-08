@@ -1,10 +1,9 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
-include('shared.lua')
+include("shared.lua")
 
 ENT.CounterSpell = COUNTERSPELL_DESTROY
-ENT.Inversion = INVERSION_SETOWNER_REVERSE_TARGET_VELOCITY
 
 function ENT:Initialize()
 	self:DrawShadow(false)
@@ -37,30 +36,17 @@ function ENT:Think()
 	local owner = self:GetOwner()
 	if owner:IsValid() then
 		local myteam = self:GetTeamID()
-		local target = self.Target
-		if target:IsValid() and target:Alive() and target:GetPos():Distance(mypos) <= 750 and IsVisible(self:GetPos(), target:NearestPoint(mypos)) then
-			local nearest = target:NearestPoint(mypos)
-			self:GetPhysicsObject():SetVelocityInstantaneous((nearest - mypos):GetNormal() * 32)
 
-			if self.NextZap <= CurTime() then
-				self.NextZap = CurTime() + 0.25
-				for _, ent in pairs(ents.FindInSphere(mypos, 200)) do
-					if ent.SendLua and ent:Alive() and ent:Team() ~= myteam and IsVisible(self:GetPos(), nearest) and ent:IsVisibleTarget(owner) then
-						local effectdata = EffectData()
-							effectdata:SetOrigin(self:GetPos())
-							effectdata:SetStart(nearest)
-						util.Effect("StaticBallCharge", effectdata)
-						ent:TakeSpecialDamage(2, DMGTYPE_SHOCK, owner, self)
-					end
-				end
-			end
-		else
-			for _, ent in pairs(ents.FindInSphere(self:GetPos(), 400)) do
-				if ent:IsPlayer() and ent:Alive() and ent:Team() ~= myteam and IsVisible(mypos, ent:NearestPoint(mypos)) then
-					if ent:IsVisibleTarget(owner) then
-						self.Target = ent
-						break
-					end
+		if self.NextZap <= CurTime() then
+			self.NextZap = CurTime() + 0.25
+			for _, ent in pairs(ents.FindInSphere(mypos, 200)) do
+				local nearest = ent:NearestPoint(mypos)
+				if ent.SendLua and ent:Alive() and ent:Team() ~= myteam and IsVisible(self:GetPos(), nearest) and ent:IsVisibleTarget(owner) then
+					local effectdata = EffectData()
+						effectdata:SetOrigin(self:GetPos())
+						effectdata:SetStart(nearest)
+					util.Effect("StaticBallCharge", effectdata)
+					ent:TakeSpecialDamage(2, DMGTYPE_SHOCK, owner, self)
 				end
 			end
 		end

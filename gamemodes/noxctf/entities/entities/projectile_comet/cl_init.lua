@@ -7,9 +7,9 @@ ENT.SmokeTimer = 0
 function ENT:Initialize()
 	self.Light={brightness=5, size=320, color=Color(120, 220, 255, 255)}
 	self:DrawShadow(false)
-	
 
-	--self:SetColor(255, 125, 75, 255)
+
+	self.Col = team.GetColor(self:GetTeamID()) or color_white
 	self:SetMaterial("models/props/de_inferno/offwndwb_break")
 	self:SetModelScale(4, 0)
 
@@ -41,7 +41,12 @@ function ENT:Draw()
 	render.SetMaterial(matFire)
 	render.DrawSprite(vOffset, 80, 80, color_white)
 
+	local col = self.Col
+	local r,g,b = col.r, col.g, col.b
+
+	render.SetColorModulation(r / 255, g / 255, b / 255)
 	self:DrawModel()
+	render.SetColorModulation(1, 1, 1)
 
 	if CurTime() < self.SmokeTimer then return end
 	self.SmokeTimer = CurTime() + 0.05
@@ -53,6 +58,7 @@ function ENT:Draw()
 	particle:SetEndAlpha(60)
 	particle:SetStartSize(math.Rand(16, 24))
 	particle:SetEndSize(5)
+	particle:SetColor(r, g, b)
 	particle:SetRoll(math.Rand(0, 360))
 	particle:SetRollDelta(math.Rand(-0.8, 0.8))
 	local negvel = self:GetVelocity() * -0.4

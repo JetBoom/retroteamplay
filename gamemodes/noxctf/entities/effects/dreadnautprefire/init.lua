@@ -1,6 +1,8 @@
 function EFFECT:Init(data)
 	self.Ent = data:GetEntity()
 
+	self.Emitter = ParticleEmitter(data:GetOrigin())
+	self.Emitter:SetNearClip(24, 32)
 	if self.Ent:IsValid() then
 		self.DieTime = CurTime() + 3
 		self.Ent:EmitSound("npc/strider/charging.wav", 78, 45)
@@ -15,6 +17,7 @@ end
 
 function EFFECT:Think()
 	if not (CurTime() < self.DieTime and self.Ent:IsValid() and self.Ent:Alive()) then
+		--self.Emitter:Finish()
 		return false
 	elseif self.Ent == MySelf then
 		self.Entity:SetPos(MySelf:GetShootPos() + MySelf:GetAimVector() * 16)
@@ -51,12 +54,11 @@ function EFFECT:Render()
 		end
 	end
 
-	local emitter = ParticleEmitter(pos)
-	emitter:SetNearClip(24, 32)
-
+	local emitter = self.Emitter
+	emitter:SetPos(pos)
 	for i=1, 2 do
 		local dir = VectorRand():GetNormal()
-		local particle = emitter:Add("sprites/flamelet"..math.random(4), pos + dir * 80)
+		particle = emitter:Add("sprites/flamelet"..math.random(1,4), pos + dir * 80)
 		particle:SetVelocity(dir * -160)
 		particle:SetDieTime(0.45)
 		particle:SetStartAlpha(64)
@@ -67,8 +69,6 @@ function EFFECT:Render()
 		particle:SetRoll(math.Rand(0, 360))
 		particle:SetColor(255, math.Rand(180, 250), math.Rand(100, 200))
 	end
-
-	emitter:Finish()
 
 	self.RingSize = self.RingSize - FrameTime() * 7 * self.RingSize
 	if self.RingSize < 2 then self.RingSize = self.RingSize + 200 end

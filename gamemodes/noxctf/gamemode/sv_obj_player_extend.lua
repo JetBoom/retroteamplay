@@ -421,7 +421,7 @@ function meta:ProcessDamage(attacker, inflictor, dmginfo)
 			util.Effect("greaterheal", effectdata)
 		end
 		
-		if attacker:GetStatus("spellsaber_sanguineblade") then
+		if attacker:GetStatus("spellsaber_sanguineblade") and attacker:GetMana() >= 25 then
 			if inflictor:GetClass() == "weapon_melee_spellsaber" or inflictor:GetClass() == "projectile_swordthrow" then
 				attacker:GetWeapon("weapon_melee_spellsaber").VampPool = attacker:GetWeapon("weapon_melee_spellsaber").VampPool + dmginfo:GetDamage()
 				local effectdata = EffectData()

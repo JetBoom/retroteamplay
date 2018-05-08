@@ -35,7 +35,7 @@ end
 
 function SWEP:Initialize()
 	self:SetWeaponHoldType(self.HoldType)
-	
+
 	self:WeaponInitialize()
 end
 
@@ -44,12 +44,12 @@ end
 
 function SWEP:HitFleshEffect(owner, tr)
 	if CLIENT then return end
-	
+
 	local pos = owner:GetCenter()
 	local pl = tr.Entity or tr
 	local nearest = pl:NearestPoint(pos)
 	local mag = math.Round(self.MeleeDamage / 2)
-	
+
 	pl:BloodSpray(nearest, math.random(math.max(0, mag - 4), mag + 4), owner:GetAimVector(), 250)
 end
 
@@ -75,7 +75,7 @@ function SWEP:DoMeleeSwing(owner)
 	local eyepos = owner:GetShootPos()
 	for _, tr in pairs(targets) do
 		if tr.Hit and tr.HitPos:Distance(eyepos) > 128 then continue end -- We don't want prediction giving people with huge ping an advantage.
-		
+
 		local ent = tr.Entity
 		if ent:IsValid() then
 			if ent:IsPlayer() then
@@ -115,7 +115,7 @@ function SWEP:DoMeleeSwingSphere(owner)
 	owner:LagCompensation(true)
 
 	local targets, hitworld = owner:GetMeleeTargets2(self.MeleeRange, self.MeleeSize)
-	
+
 	if DEBUG then PrintTable(targets) end
 
 	local hit, hitworld, hitflesh
@@ -178,7 +178,7 @@ end
 
 function SWEP:CanPrimaryAttack()
 	local owner = self.Owner
-	return self:GetNextPrimaryFire() <= CurTime() and not owner:StatusHook("PlayerCantAttack", owner, self) and self:CanMeleeAttack(owner)
+	return self:GetNextPrimaryFire() <= CurTime() and not owner:StatusHook("PlayerCantAttack", owner, self) and self:CanMeleeAttack(owner) and not owner:KeyDown(IN_ATTACK2)
 end
 
 function SWEP:WeaponMeleeAttack(owner)
@@ -191,17 +191,17 @@ function SWEP:PrimaryAttack()
 	self:SetNextPrimaryFire(CurTime() + cd)
 	self:SetNextSecondaryFire(math.max(self:GetNextSecondaryFire(), CurTime() + cd))
 	self:SetNextReload(math.max(self:GetNextReload(), CurTime() + cd))
-	
+
 	local owner = self.Owner
 	if IsFirstTimePredicted() then
 		self:PlaySound(self, "MeleeSwing")
 		self:PlayAnimation(owner, "MeleeSwing")
-		
+
 		if SERVER and not owner:StatusWeaponHook("ShouldRemainInvisible") then owner:RemoveInvisibility() end
 	end
 
 	self:SetMeleeHitTime(CurTime() + self.MeleeSwingTime)
-	
+
 	self:WeaponMeleeAttack(owner)
 end
 
@@ -228,13 +228,13 @@ function SWEP:SecondaryAttack()
 	self:SetNextReload(math.max(self:GetNextReload(), CurTime() + self.SpecialCooldown))
 
 	local owner = self.Owner
-	if IsFirstTimePredicted() then 
+	if IsFirstTimePredicted() then
 		self:PlaySound(owner, "Special")
 		self:PlayAnimation(owner, "Special")
-	
+
 		if SERVER and not owner:StatusWeaponHook("ShouldRemainInvisible") then owner:RemoveInvisibility() end
 	end
-	
+
 	self:WeaponSpecialAttack(owner)
 end
 
@@ -253,19 +253,19 @@ end
 
 function SWEP:Reload()
 	if not self:CanReload() then return end
-	
-	self:SetNextPrimaryFire(math.max(self:GetNextPrimaryFire(), CurTime() + self.Special2Cooldown))
+
+	self:SetNextPrimaryFire(math.max(self:GetNextPrimaryFire(), CurTime() + self.MeleeCooldown))
 	self:SetNextSecondaryFire(math.max(self:GetNextSecondaryFire(), CurTime() + self.SpecialCooldown))
 	self:SetNextReload(CurTime() + self.Special2Cooldown)
-	
+
 	local owner = self.Owner
-	if IsFirstTimePredicted() then 
+	if IsFirstTimePredicted() then
 		self:PlaySound(owner, "Special2")
 		self:PlayAnimation(owner, "Special2")
-	
+
 		if SERVER and not owner:StatusWeaponHook("ShouldRemainInvisible") then owner:RemoveInvisibility() end
 	end
-	
+
 	self:WeaponSpecialAttack2(owner)
 end
 

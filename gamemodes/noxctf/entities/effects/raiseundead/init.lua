@@ -1,14 +1,15 @@
 function EFFECT:Init(data)
+	
 	local pos = data:GetOrigin()
 	local ent = data:GetEntity()
 
+	self.Emitter = ParticleEmitter( pos )
+	
 	if IsValid(ent) then
+		
 		local c = ent:GetColor()
-
-		local emitter = ParticleEmitter(pos)
-		emitter:SetNearClip(16, 24)
-
-		for i=1, math.random(23, 40) do
+	
+		for i=1, math.random(23,40) do
 			local particle = self.Emitter:Add("particle/particle_glow_05_addnofog", self:GetPos() + VectorRand() * math.Rand(-10, 10) + vector_up*i*10)
 			particle:SetVelocity(VectorRand() * math.Rand(100, 200) + vector_up * math.random(340,800))
 			particle:SetStartSize(18*(45-i))
@@ -24,10 +25,11 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.Rand(-180, 180))
 			particle:SetRollDelta(math.Rand(-4, 4))
 		end
-
-		emitter:Finish()
-
+	
+		--self.Emitter:Finish()
+		
 		ent:EmitSound("weapons/physcannon/energy_sing_explosion2.wav")
+		
 	end
 end
 	

@@ -16,7 +16,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.random(360, 480))
 			particle:SetRollDelta(math.Rand(-1, 1))
 			particle:SetColor(50, math.random(60, 80), math.random(220, 255))
-			particle:VelocityDecay(false)
 		end
 
 		for i=1, math.max(1, EFFECT_QUALITY * 2.5) do
@@ -29,7 +28,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.Rand(0, 360))
 			particle:SetRollDelta(math.Rand(-2.5, 2.5))
 			particle:SetColor(70, 60, 60)
-			particle:VelocityDecay(false)
 		end
 
 		for i=1, 8 do
@@ -42,7 +40,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.Rand(360, 480))
 			particle:SetRollDelta(math.Rand(-1, 1))
 			particle:SetColor(50, math.random(50, 125), math.random(170, 255))
-			particle:VelocityDecay(false)
 
 			local particle = emitter:Add("particles/flamelet1", Pos + Vector(math.random(-30,30),math.random(-30,30),math.random(-40,50)))
 			particle:SetVelocity(Vector(math.random(-60,60),math.random(-60,60),math.random(30,70)) * 0.5)
@@ -53,7 +50,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.random(360, 480))
 			particle:SetRollDelta(math.Rand(-1, 1))
 			particle:SetColor(50, math.random(50, 125), math.random(170, 255))
-			particle:VelocityDecay(false)
 		end
 
 		for i=1, math.max(4, EFFECT_QUALITY * 6) do
@@ -66,7 +62,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.random(360,480))
 			particle:SetRollDelta(math.Rand(-1, 1))
 			particle:SetColor(50, math.random(50, 125), math.random(170, 255))
-			particle:VelocityDecay(true)
 		end
 
 		for i=1, math.max(4, EFFECT_QUALITY * 3.5) do
@@ -79,7 +74,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.random(360, 480))
 			particle:SetRollDelta(math.Rand(-1, 1))
 			particle:SetColor(50, math.random(60, 80), math.random(170, 255))
-			particle:VelocityDecay(false)
 
 			local particle = emitter:Add("particles/flamelet1", Pos + Vector(math.random(-40,40),math.random(-40,50),math.random(20,280)))
 			particle:SetVelocity(Vector(math.random(-180,180),math.random(-180,180),math.random(160,240)) * 0.5)
@@ -90,7 +84,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.random(480, 540))
 			particle:SetRollDelta(math.Rand(-1, 1))
 			particle:SetColor(50, math.random(60, 80), math.random(170, 255))
-			particle:VelocityDecay(false)
 
 			local particle = emitter:Add("particles/flamelet1", Pos + Vector(math.random(-40,40),math.random(-40,50),math.random(20,280)))
 			particle:SetVelocity(Vector(math.random(-180,280),math.random(-180,280),math.random(160,240)) * 0.5)
@@ -101,7 +94,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.random(480, 540))
 			particle:SetRollDelta(math.random(-1, 1))
 			particle:SetColor(170, 170, 170)
-			particle:VelocityDecay(false)
 
 			local particle = emitter:Add("particles/flamelet1", Pos + Vector(math.random(-200,200),math.random(-200,200),math.random(5,10)))
 			particle:SetVelocity(Vector(math.random(-200,200),math.random(-200,200),math.random(120,200)) * 0.5)
@@ -112,7 +104,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.random(480, 540))
 			particle:SetRollDelta(math.random(-1, 1))
 			particle:SetColor(170, 170, 170)
-			particle:VelocityDecay(false)
 		end
 	emitter:Finish()
 

@@ -8,14 +8,14 @@ function EFFECT:Init(data)
 	emitter:SetNearClip(24, 32)
 
 	for i=1, math.max(1, EFFECT_QUALITY) do
-		local particle = self.Emitter:Add("sprites/glow04_noz", pos)
+		local particle = emitter:Add("sprites/glow04_noz", pos)
 		particle:SetDieTime(2)
 		particle:SetStartAlpha(255)
 		particle:SetEndAlpha(0)
 		particle:SetStartSize(1)
 		particle:SetEndSize(140)
 
-		local particle = self.Emitter:Add("sprites/glow04_noz", pos)
+		local particle = emitter:Add("sprites/glow04_noz", pos)
 		particle:SetDieTime(1.25)
 		particle:SetStartAlpha(255)
 		particle:SetEndAlpha(0)

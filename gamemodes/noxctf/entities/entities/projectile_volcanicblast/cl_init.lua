@@ -2,7 +2,7 @@ include("shared.lua")
 
 function ENT:DrawOffScreen()
 	if self.SmokeTimer > RealTime() then return end
-	self.SmokeTimer = RealTime() + 0.05 * math.max(1, EFFECT_IQUALITY)
+	self.SmokeTimer = RealTime() + 0.075 * math.max(1, EFFECT_IQUALITY)
 
 	local vOffset = self:GetPos()
 
@@ -24,7 +24,7 @@ function ENT:DrawOffScreen()
 			particle:SetRollDelta(math.Rand(-45, 45))
 
 			local particle = emitter:Add("particles/smokey", vOffset + VectorRand():GetNormal() * math.Rand(16, 48))
-			particle:SetDieTime(math.Rand(2.75, 3.75))
+			particle:SetDieTime(math.Rand(1.75, 2.75))
 			particle:SetStartAlpha(math.Rand(150, 230))
 			particle:SetEndAlpha(10)
 			particle:SetStartSize(2)
@@ -45,7 +45,7 @@ function ENT:DrawOffScreen()
 			particle:SetRollDelta(math.Rand(-15, 15))
 
 			local particle = emitter:Add("particles/smokey", vOffset + VectorRand():GetNormal() * math.Rand(16, 48))
-			particle:SetDieTime(math.Rand(2.75, 3.75))
+			particle:SetDieTime(math.Rand(1.75, 2.75))
 			particle:SetStartAlpha(math.Rand(150, 230))
 			particle:SetEndAlpha(10)
 			particle:SetStartSize(2)

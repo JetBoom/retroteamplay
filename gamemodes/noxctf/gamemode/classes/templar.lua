@@ -12,7 +12,7 @@ CLASS.ManaRegeneration = 7
 CLASS.Image = "noxctf/classicons/templar"
 CLASS.RawIcon = "spellicons/sanctuary.png"
 
-CLASS.DefaultSpellSheet = "Divine Bolt:Pixie Swarm:Heal Ring:Sanctuary:Blink:Protect From Elements:Counter Spell:Force Field:Star Burst:Inversion:Magic Arrow:Cure Poison:Levitate:Force Field:Regeneration:Channel Life"
+CLASS.DefaultSpellSheet = "Divine Bolt:Pixie Swarm:Hallowed Ground:Sanctuary:Astra:Protect From Elements:Counter Spell:Force Field:Star Burst:Inversion:Magic Arrow:Cure Poison:Levitate:Force Field:Regeneration:Channel Life"
 
 CLASS.EaseOfUse = 4
 CLASS.Defense = 10
@@ -25,7 +25,7 @@ function CLASS:CalcMainActivity(pl, velocity)
 	else
 		if not pl:OnGround() then
 			pl.CalcIdeal = ACT_BARNACLE_PULL
-		elseif pl.HealRing then
+		elseif pl:GetStatus("hallowedgroundchanneling") or pl.HealRing then
 			pl.CalcSeqOverride = 38
 		else
 			local notmoving = velocity:Length() <= 0.5

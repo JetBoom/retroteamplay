@@ -3,21 +3,21 @@ function EFFECT:Init(effectdata)
 	self.Magnitude = effectdata:GetMagnitude()
 	self.DeathTime = CurTime() + 0.25
 
+	self.Emitter = ParticleEmitter(self.Pos)
+	self.Emitter:SetNearClip(24, 32)
+
 	ExplosiveEffect(self.Pos, self.Magnitude, self.Magnitude * 0.75, DMGTYPE_FIRE)
 end
 
 function EFFECT:Think()
 	if CurTime() >= self.DeathTime then
+		--self.Emitter:Finish()
 		return false
 	end
 
 	local pos = self.Pos
-
-	local emitter = ParticleEmitter(pos)
-	emitter:SetNearClip(24, 32)
-
 	for i=1, EFFECT_QUALITY * math.Rand(3, 6) do
-		local particle = emitter:Add("sprites/glow04_noz", pos + VectorRand():GetNormal() * math.Rand(0, self.Magnitude))
+		local particle = self.Emitter:Add("sprites/glow04_noz", pos + VectorRand():GetNormal() * math.Rand(0, self.Magnitude))
 		particle:SetColor(255, 0, 0)
 		particle:SetStartSize(128)
 		particle:SetEndSize(0)
@@ -29,8 +29,6 @@ function EFFECT:Think()
 		particle:SetRoll(math.Rand(0, 360))
 		particle:SetRollDelta(math.Rand(-1.5, 1.5))
 	end
-
-	emitter:Finish()
 
 	return true
 end

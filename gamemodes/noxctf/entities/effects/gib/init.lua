@@ -6,6 +6,8 @@ function EFFECT:Init(data)
 
 	local modelid = data:GetMagnitude()
 
+	self.Emitter = ParticleEmitter(self:GetPos())
+
 	self.Entity:SetModel(GAMEMODE.GibModels[modelid])
 
 	--self.Entity:PhysicsInit(SOLID_VPHYSICS)
@@ -27,11 +29,18 @@ function EFFECT:Init(data)
 	self.Effects = data:GetScale()
 	
 	self.Time = math.Rand(5, 10)
-	self.DeathTime = CurTime() + 15
+	self.DeathTime = RealTime() + 15
 end
 
 function EFFECT:Think()
-	return CurTime() <= self.DeathTime
+	if self.DeathTime < RealTime() then
+		--self.Emitter:Finish()
+		return false
+	end
+
+	self.Emitter:SetPos(self.Entity:GetPos())
+
+	return true
 end
 
 function EFFECT:Render()
@@ -43,13 +52,10 @@ function EFFECT:Render()
 	local vel = self.Entity:GetVelocity():Length()
 
 	if 20 < vel or self.Effects == DMGTYPE_FIRE then
-		local pos = self.Entity:GetPos()
-
-		local emitter = ParticleEmitter(pos)
-		emitter:SetNearClip(24, 32)
+		local emitter = self.Emitter
 
 		if vel > 20 then
-			local particle = emitter:Add("noxctf/sprite_bloodspray"..math.random(8), pos)
+			local particle = emitter:Add("noxctf/sprite_bloodspray"..math.random(1,8), self.Entity:GetPos())
 			particle:SetVelocity(VectorRand() * 16)
 			particle:SetDieTime(0.6)
 			particle:SetStartAlpha(255)
@@ -62,7 +68,7 @@ function EFFECT:Render()
 		end
 
 		if self.Effects == DMGTYPE_FIRE then
-			local particle = emitter:Add("effects/fire_embers"..math.random(3), pos)
+			local particle = emitter:Add("effects/fire_embers"..math.random(1,3), self.Entity:GetPos())
 			particle:SetDieTime(0.5)
 			particle:SetVelocity(VectorRand():GetNormal() * math.Rand(-8, 8) + Vector(0,0,8))
 			particle:SetStartAlpha(200)
@@ -71,7 +77,5 @@ function EFFECT:Render()
 			particle:SetEndSize(8)
 			particle:SetRoll(math.random(0, 360))
 		end
-
-		emitter:Finish()
 	end
 end

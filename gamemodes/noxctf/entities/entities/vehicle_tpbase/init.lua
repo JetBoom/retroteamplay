@@ -192,7 +192,7 @@ function ENT:PhysicsSimulate(phys, frametime)
 	local gphys = seat:GetPhysicsObject()
 	gphys:SetVelocityInstantaneous(vel)
 
-	local driver = self:GetPilotSeat():GetDriver()
+	local driver = self.PilotSeat:GetDriver()
 	if not driver:IsValid() then
 		return SIM_NOTHING
 	end
@@ -245,7 +245,7 @@ function ENT:Think()
 	end
 
 	if 2 < self:WaterLevel() then
-		local world = GetWorldEntity()
+		local world = game.GetWorld()
 		self.Attacker = world
 		self.Inflictor = world
 		self.DoDestroy = true

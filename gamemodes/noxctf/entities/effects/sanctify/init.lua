@@ -1,11 +1,11 @@
 function EFFECT:Init(effectdata)
 	local pos = effectdata:GetOrigin()
 
-	local emitter = ParticleEmitter(self.Pos)
+	local emitter = ParticleEmitter(pos)
 	emitter:SetNearClip(24, 32)
 
 	for i=1, EFFECT_QUALITY * 200 do
-		local particle = self.Emitter:Add("sprites/glow04_noz", pos)
+		local particle = emitter:Add("sprites/glow04_noz", pos)
 		particle:SetColor(255, 255, 0)
 		particle:SetStartSize(16)
 		particle:SetEndSize(16)

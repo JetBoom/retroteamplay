@@ -52,12 +52,14 @@ AddCSLuaFile("vehicles_shared.lua")
 
 AddCSLuaFile("modules/sh_statushook.lua")
 
+AddCSLuaFile("gametypes/cl_assault.lua")
 AddCSLuaFile("gametypes/cl_blitz.lua")
 AddCSLuaFile("gametypes/cl_harvest.lua")
 AddCSLuaFile("gametypes/cl_ctf.lua")
 AddCSLuaFile("gametypes/cl_holdtheflag.lua")
 AddCSLuaFile("gametypes/cl_kingofthehill.lua")
 
+include("gametypes/assault.lua")
 include("gametypes/blitz.lua")
 include("gametypes/harvest.lua")
 include("gametypes/ctf.lua")
@@ -281,13 +283,13 @@ function GM:AddResources()
 	resource.AddFile("materials/morrowind/daedric/staff/daedric3.vmt")
 	resource.AddFile("materials/morrowind/daedric/staff/daedric4.vmt")
 	resource.AddFile("materials/morrowind/daedric/staff/daedric5.vmt")
-	
+
 	resource.AddFile("materials/morrowind/magnus/staff/magnus1.vmt")
 	resource.AddFile("materials/morrowind/magnus/staff/magnus2.vmt")
 	resource.AddFile("materials/morrowind/magnus/staff/magnus3.vmt")
 	resource.AddFile("materials/morrowind/magnus/staff/magnus4.vmt")
 	resource.AddFile("materials/morrowind/magnus/staff/magnus5.vmt")
-	
+
 	resource.AddFile("materials/models/wp_sword_short/wp_sword_short.vmt")
 	resource.AddFile("materials/models/wp_sword_short/wp_sword_short.vtf")
 	resource.AddFile("materials/models/wp_sword_short/wp_sword_short_normal.vtf")
@@ -296,7 +298,7 @@ function GM:AddResources()
 	resource.AddFile("materials/models/orcbow/ornesbow.vmt")
 	resource.AddFile("materials/models/orcbow/ornesbow.vtf")
 	resource.AddFile("materials/models/orcbow/ornesbow_normal.vtf")
-	
+
 	-- Paladin's Warhammer
 	resource.AddFile("sound/weapons/hammer/morrowind_hammer_deploy1.wav")
 	resource.AddFile("sound/weapons/hammer/morrowind_hammer_hit.wav")
@@ -306,10 +308,10 @@ function GM:AddResources()
 	resource.AddFile("sound/weapons/halberd/morrowind_halberd_hit.wav")
 	resource.AddFile("sound/weapons/halberd/morrowind_halberd_hitwall1.wav")
 	resource.AddFile("sound/weapons/halberd/morrowind_halberd_slash.wav")
-	
+
 	resource.AddFile("models/morrowind/orcish/hammer/v_orcish_hammer.mdl")
 	resource.AddFile("models/morrowind/orcish/hammer/w_orcish_hammer.mdl")
-	
+
 	resource.AddFile("materials/morrowind/orcish/hammer/orcish1.vmt")
 	resource.AddFile("materials/morrowind/orcish/hammer/orcish1.vtf")
 	resource.AddFile("materials/morrowind/orcish/hammer/orcish2.vmt")
@@ -322,12 +324,12 @@ function GM:AddResources()
 	resource.AddFile("materials/morrowind/orcish/hammer/orcish5.vtf")
 	resource.AddFile("materials/vgui/entities/weapon_mor_orcish_hammer.vmt")
 	resource.AddFile("materials/vgui/entities/weapon_mor_orcish_hammer.vtf")
-	
+
 	--[[
 	-- Alchemist's Scepter
 	resource.AddFile("models/morrowind/dwemer/mace/v_dwemer_mace.mdl")
 	resource.AddFile("models/morrowind/dwemer/mace/w_dwemer_mace.mdl")
-	
+
 	resource.AddFile("materials/morrowind/dwemer/mace/dwemer1.vmt")
 	resource.AddFile("materials/morrowind/dwemer/mace/dwemer1.vtf")
 	resource.AddFile("materials/morrowind/dwemer/mace/dwemer2.vmt")
@@ -562,7 +564,7 @@ function GM:InitPostEntity()
 			end
 		end
 	end
-	
+
 	--[[if file.Exists(GAMEMODE_NAME.."_gametype.txt", "DATA") then
 		local gt = file.Read(GAMEMODE_NAME.."_gametype.txt")
 
@@ -582,7 +584,7 @@ function GM:InitPostEntity()
 
 	if file.Exists(GAMEMODE_NAME.."_gametype.txt", "DATA") then --???
 		local gt = file.Read(GAMEMODE_NAME.."_gametype.txt")
-		
+
 		if self[gt.."Initialize"] then
 			self[gt.."Initialize"](self)
 		end
@@ -789,9 +791,9 @@ function GM:DrainPower(prop, amount)
 		for ent, amount in pairs(todrain) do
 			ent.ManaStorage = ent.ManaStorage - amount
 			ent:SetSkin(ent.ManaStorage)
-			if ent.GrandCapacitor then 
+			if ent.GrandCapacitor then
 				ent:SetMana(ent.ManaStorage)
-				team.SetScore(ent:GetTeamID(), ent.ManaStorage) 
+				team.SetScore(ent:GetTeamID(), ent.ManaStorage)
 			end
 		end
 		return true
@@ -1332,7 +1334,7 @@ function GM:EndGame(winner, slaves)
 	timer.Simple(5, function() BroadcastLua("OpenVoteMenu()") end)
 	timer.Simple(25, function() BroadcastLua("OpenGTVoteMenu()") end)
 	VOTEMAPOVER = CurTime() + 25
-	
+
 	for _, pl in pairs(player.GetAll()) do
 		local steamid = pl:SteamID()
 		if pl:Team() == winner then
@@ -1441,7 +1443,7 @@ function GM:PlayerHurt(pl, attacker, healthremaining, damage)
 	if attacker:IsPlayer() and attacker ~= pl then
 		pl:SetLastAttacker(attacker)
 	end
-	
+
 	if healthremaining <= 0 then
 		if attacker:IsPlayer() and attacker:InVehicle() and attacker ~= pl then
 			local pilot = attacker:GetVehicle():GetVehicleParent().PilotSeat:GetDriver()
@@ -1488,7 +1490,7 @@ function GM:DoPlayerDeath(pl, attacker, dmginfo)
 	if wep.Droppable then
 		timer.Simple(0, function() MakinAWep(wep.Droppable, pl:GetPos(), pl:GetVelocity(), wep.Mana or 0) end)
 	end
-	
+
 	local lastattacker, lastattacked, lastattacker2, lastattacked2 = pl:GetLastAttacker()
 	if (attacker == pl or not attacker:IsPlayer()) and lastattacker:IsValid() and CurTime() < pl.LastAttacked + 8 then attacker = lastattacker end
 
@@ -1685,7 +1687,7 @@ function GM:DoPlayerDeath(pl, attacker, dmginfo)
 	end
 
 	self:PlayerDeath2(pl, inflictor, attacker, lastattacker2, isassist)
-	
+
 	--Necromancer
 	pl:CreateSoul()
 end
@@ -1967,9 +1969,9 @@ end
 function GM:PlayerSpawn(pl)
 	pl.NextTriggerNoXHurt = 0
 	pl.NextPainSound = 0
-	
+
 	pl.Suicided = nil
-	
+
 	pl:ClearLastAttacker()
 
 	if pl:Team() == TEAM_SPECTATOR and not pl.DeathClass or pl:GetPlayerClass() < 1 then
@@ -1983,16 +1985,16 @@ function GM:PlayerSpawn(pl)
 		pl:SetPlayerClass(pl.DeathClass)
 		pl.DeathClass = nil
 	end
-	
+
 	pl:UnSpectate()
-	
+
 	local cur_Class = pl:GetPlayerClass()
 	if cur_Class == 1 then
 		pl:ShouldDropWeapon(true)
 	else
 		pl:ShouldDropWeapon(false)
 	end
-	
+
 	pl:SetRenderMode(RENDERMODE_TRANSALPHA)
 	pl:SetCollisionGroup(COLLISION_GROUP_PLAYER)
 
@@ -2002,7 +2004,7 @@ function GM:PlayerSpawn(pl)
 	pl.NextSpell = 0
 	pl.AbilityDelays = {}
 	self:SetPlayerSpeed(pl, classtab.Speed)
-	
+
 	pl:StopAllLuaAnimations(.1)
 
 	if classtab.SWEP then
@@ -2268,11 +2270,11 @@ local function CCMakeProp(sender, command, arguments)
 	local typ = proptab.Type
 	local ent = ents.Create(typ)
 	if not ent:IsValid() then return end
-	
+
 	if proptab.Model then
 		ent:SetModel(proptab.Model)
 	end
-	
+
 	ent.m_IsBuilding = true
 
 	local ang = sender:EyeAngles()
@@ -2602,7 +2604,7 @@ concommand.Add("CreateVehicle", function(sender, command, arguments)
 
 	local vehicleclass = table.concat(arguments, " ")
 	if not vehicleclass then return end
-	
+
 	local tab = GAMEMODE:GetVehicles()[vehicleclass]
 	if not tab then return end
 

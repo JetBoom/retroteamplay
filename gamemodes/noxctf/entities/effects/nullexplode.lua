@@ -1,14 +1,15 @@
 function EFFECT:Init(effectdata)
 	local pos = effectdata:GetOrigin()
 
+	self.Emitter = ParticleEmitter(pos)
+	self.Emitter:SetNearClip(24, 32)
+	
 	sound.Play("physics/glass/glass_sheet_break"..math.random(1,3)..".wav", pos, 70, math.random(50, 70))
 	sound.Play("weapons/physcannon/energy_disintegrate"..math.random(4,5)..".wav", pos, 75, math.random(70, 90))
 
-	local emitter = ParticleEmitter(pos)
-	emitter:SetNearClip(24, 32)
 
 	for i=1,100 do
-		local particle = emitter:Add("effects/splash2", pos)
+		local particle = self.Emitter:Add("effects/splash2", pos)
 		particle:SetDieTime(0.4)
 		particle:SetColor(50,50,255)
 		particle:SetStartAlpha(255)
@@ -20,7 +21,7 @@ function EFFECT:Init(effectdata)
 		particle:SetVelocity(VectorRand():GetNormal() * 520)
 	end
 	for i=1,300 do
-		local particle = emitter:Add("effects/fleck_glass"..math.random(1,3), pos + VectorRand():GetNormal() * 200)
+		local particle = self.Emitter:Add("effects/fleck_glass"..math.random(1,3), pos + VectorRand():GetNormal() * 200)
 		particle:SetDieTime(4)
 		particle:SetColor(0,0,255)
 		particle:SetRoll(math.random(0,360))
@@ -34,9 +35,9 @@ function EFFECT:Init(effectdata)
 		particle:SetCollide(true)
 		particle:SetBounce(0.3)
 	end
-	for i=1, 160 do
+	for i=1,160 do
 		local particlepos = VectorRand():GetNormal() * 256
-		local particle = emitter:Add("effects/blueflare1", pos + particlepos)
+		local particle = self.Emitter:Add("effects/blueflare1", pos + particlepos)
 		particle:SetDieTime(1)
 		particle:SetColor(50,50,255)
 		particle:SetStartAlpha(255)
@@ -46,8 +47,10 @@ function EFFECT:Init(effectdata)
 		particle:SetVelocity(particlepos * -2.3)
 	end
 
-	emitter:Finish()
+	
+	--self.Emitter:Finish()
 
+	
 	ExplosiveEffect(pos, 256, 20, DMGTYPE_LIGHTNING)
 end
 

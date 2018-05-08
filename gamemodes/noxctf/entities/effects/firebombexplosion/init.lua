@@ -67,7 +67,6 @@ function EFFECT:Init(data)
 			particle:SetRoll(math.Rand(360, 480))
 			particle:SetRollDelta(math.Rand(-4, 4))
 			particle:SetColor(70, 60, 60)
-			particle:VelocityDecay(false)
 			particle:SetCollide(true)
 			particle:SetBounce(0.4)
 		end

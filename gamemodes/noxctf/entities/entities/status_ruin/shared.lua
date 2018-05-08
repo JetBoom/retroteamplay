@@ -10,7 +10,7 @@ function ENT:EntityTakeDamage(ent, dmginfo)
 	if attacker == self:GetOwner() then
 		local inflictor = dmginfo:GetInflictor()
 		if inflictor and inflictor:IsValid() and inflictor.MeleeDamage then
-			dmginfo:SetDamage(dmginfo:GetDamage() * 0.6666)
+			dmginfo:SetDamage(dmginfo:GetDamage() * 0.9)
 		end
 	end
 end

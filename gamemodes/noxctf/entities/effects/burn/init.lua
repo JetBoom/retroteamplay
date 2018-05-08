@@ -4,10 +4,10 @@ function EFFECT:Init(data)
 	sound.Play("nox/burn.ogg", pos, 100, math.random(95, 105))
 
 	local emitter = ParticleEmitter(pos)
-		for i=1, math.random(6, 16) do
+		for i=1, math.random(6, 10) do
 			local particle = emitter:Add("sprites/light_glow02_add", pos)
 			particle:SetVelocity(VectorRand() * 48 + Vector(0,0,200))
-			particle:SetDieTime(1.5)
+			particle:SetDieTime(1)
 			particle:SetStartAlpha(220)
 			particle:SetEndAlpha(50)
 			particle:SetStartSize(10)
@@ -21,7 +21,7 @@ function EFFECT:Init(data)
 		for i=1, math.random(6, 8) do
 			local particle = emitter:Add("sprites/light_glow02_add", pos)
 			particle:SetVelocity(VectorRand() * 32 + Vector(0,0,math.random(75, 100)))
-			particle:SetDieTime(1.75)
+			particle:SetDieTime(1.5)
 			particle:SetStartAlpha(220)
 			particle:SetEndAlpha(50)
 			particle:SetStartSize(16)
@@ -32,14 +32,14 @@ function EFFECT:Init(data)
 			particle:SetAirResistance(80)
 		end
 	emitter:Finish()
-
+--[[
 	for i=1, math.random(2, 4) do
 		local effectdata = EffectData()
 			effectdata:SetOrigin(pos + VectorRand() * 8)
 			effectdata:SetNormal(VectorRand() + Vector(0,0,0.4))
 			effectdata:SetScale(300)
 		util.Effect("ember", effectdata)
-	end
+	end]]
 
 	ExplosiveEffect(pos, 24, 0.01, DMGTYPE_FIRE)
 
