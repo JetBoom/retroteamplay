@@ -3,6 +3,7 @@
 	"base"				"base"
 	"title"				"Retro TeamPlay"
 	"maps"				"^gm_build_noxctf_|^nox_|^noxctf_|^noxtp_|^noxnb_"
+	"category"		"pvp"
 	"menusystem"		"1"
 	"workshopid"		"192091596"
 
