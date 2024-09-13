@@ -5,8 +5,8 @@
 </p>
 
 # Retro Team Play
-
-**Note:** this original version is *very* old and development has stopped over a decade ago. You're much better off finding and joining existing servers on the public server list. They have been developed for and played by fans as recently as 2024.
+> [!NOTE]
+> This original version is *very* old and development has stopped over a decade ago. You're much better off finding and joining existing servers on the public server list. They have been developed for and played by fans as recently as 2024.
 
 * [Steam workshop post](https://steamcommunity.com/sharedfiles/filedetails/?id=192091596)
 
